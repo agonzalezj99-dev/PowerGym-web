@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="public/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PowerGym</title>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  </head>
+  <body>
+  <div id="root"></div>
+  <div class="chat-container">
+    <df-messenger
+      agent-id="c8783e8d-650a-428f-a844-d5101c70120c"
+      chat-title="PowerBot"
+      language-code="es"
+      intent="Welcome">
+    </df-messenger>
+  </div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
