@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getMisInscripciones, inscribirse, cancelarInscripcion } = require("../controllers/inscripciones.controller");
-const { auth } = require("../middleware/auth.middleware");
+const { getMisInscripciones, inscribirse, cancelarInscripcion } = require("../controllers/inscripciones_controller");
+const { auth } = require("../middleware/auth_middleware");
 
 router.get("/", auth, getMisInscripciones);
 router.post("/", auth, inscribirse);

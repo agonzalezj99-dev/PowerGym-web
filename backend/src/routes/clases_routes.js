@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getClases, getClase, createClase, updateClase, deleteClase } = require("../controllers/clases.controller");
-const { auth, soloAdmin } = require("../middleware/auth.middleware");
+const { getClases, getClase, createClase, updateClase, deleteClase } = require("../controllers/clases_controller");
+const { auth, soloAdmin } = require("../middleware/auth_middleware");
 
 router.get("/", getClases);
 router.get("/:id", getClase);
