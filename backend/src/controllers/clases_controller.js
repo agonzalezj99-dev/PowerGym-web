@@ -3,10 +3,10 @@ const db = require("../config/db");
 // VER TODAS LAS CLASES
 const getClases = async (req, res) => {
   try {
-    const [clases] = await db.query(
+    const result = await db.query(
       "SELECT * FROM clases ORDER BY dia_semana, hora_inicio"
     );
-    res.json(clases);
+    res.json(result.rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al obtener las clases" });
@@ -16,14 +16,14 @@ const getClases = async (req, res) => {
 // VER UNA CLASE
 const getClase = async (req, res) => {
   try {
-    const [clases] = await db.query(
-      "SELECT * FROM clases WHERE id = ?",
+    const result = await db.query(
+      "SELECT * FROM clases WHERE id = $1",
       [req.params.id]
     );
-    if (clases.length === 0) {
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: "Clase no encontrada" });
     }
-    res.json(clases[0]);
+    res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al obtener la clase" });
@@ -35,7 +35,7 @@ const createClase = async (req, res) => {
   const { nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max } = req.body;
   try {
     await db.query(
-      "INSERT INTO clases (nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO clases (nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max) VALUES ($1, $2, $3, $4, $5, $6)",
       [nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max]
     );
     res.status(201).json({ mensaje: "Clase creada correctamente" });
@@ -50,7 +50,7 @@ const updateClase = async (req, res) => {
   const { nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max } = req.body;
   try {
     await db.query(
-      "UPDATE clases SET nombre = ?, instructor = ?, dia_semana = ?, hora_inicio = ?, hora_fin = ?, plazas_max = ? WHERE id = ?",
+      "UPDATE clases SET nombre = $1, instructor = $2, dia_semana = $3, hora_inicio = $4, hora_fin = $5, plazas_max = $6 WHERE id = $7",
       [nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max, req.params.id]
     );
     res.json({ mensaje: "Clase actualizada correctamente" });
@@ -63,7 +63,7 @@ const updateClase = async (req, res) => {
 // BORRAR CLASE (solo admin)
 const deleteClase = async (req, res) => {
   try {
-    await db.query("DELETE FROM clases WHERE id = ?", [req.params.id]);
+    await db.query("DELETE FROM clases WHERE id = $1", [req.params.id]);
     res.json({ mensaje: "Clase eliminada correctamente" });
   } catch (error) {
     console.error(error);

@@ -1,20 +1,17 @@
 const db = require("../config/db");
 const { Resend } = require("resend");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-// ENVIAR CONSULTA
 const enviarConsulta = async (req, res) => {
   const { nombre, email, mensaje } = req.body;
 
   try {
-    // Guarda en la base de datos
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     await db.query(
-      "INSERT INTO consultas (nombre, email, mensaje) VALUES (?, ?, ?)",
+      "INSERT INTO consultas (nombre, email, mensaje) VALUES ($1, $2, $3)",
       [nombre, email, mensaje]
     );
 
-    // Envía el email
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: process.env.EMAIL_DESTINO,
@@ -34,13 +31,12 @@ const enviarConsulta = async (req, res) => {
   }
 };
 
-// VER TODAS LAS CONSULTAS (solo admin)
 const getConsultas = async (req, res) => {
   try {
-    const [consultas] = await db.query(
+    const result = await db.query(
       "SELECT * FROM consultas ORDER BY fecha DESC"
     );
-    res.json(consultas);
+    res.json(result.rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al obtener las consultas" });
