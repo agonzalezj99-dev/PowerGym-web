@@ -8,6 +8,7 @@ type Membresia = "basica" | "pro" | "premium" | "";
 interface FormData {
   nombre: string;
   email: string;
+  contrasena: string;
   fechaNacimiento: string;
   membresia: Membresia;
 }
@@ -16,6 +17,7 @@ const Registro = () => {
   const [form, setForm] = useState<FormData>({
     nombre: "",
     email: "",
+    contrasena: "",
     fechaNacimiento: "",
     membresia: "",
   });
@@ -24,10 +26,34 @@ const Registro = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Registro enviado:", form);
-    alert("¡Cuenta creada con éxito!");
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: form.nombre,
+          email: form.email,
+          contrasena: form.contrasena,
+          fecha_nacimiento: form.fechaNacimiento,
+          membresia: form.membresia,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Error al registrarse");
+        return;
+      }
+
+      alert("¡Cuenta creada con éxito!");
+    } catch (error) {
+      console.error(error);
+      alert("Error al conectar con el servidor");
+    }
   };
 
   return (
@@ -45,6 +71,10 @@ const Registro = () => {
             <div className="form-group">
               <label htmlFor="email">Correo Electrónico</label>
               <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="contrasena">Contraseña</label>
+              <input type="password" id="contrasena" name="contrasena" value={form.contrasena} onChange={handleChange} required />
             </div>
             <div className="form-group">
               <label htmlFor="fechaNacimiento">Fecha de Nacimiento</label>
@@ -68,6 +98,7 @@ const Registro = () => {
               </div>
             </div>
             <button type="submit" className="btn" onClick={handleSubmit}>Crear Cuenta</button>
+            <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesion aquí</a></p>
           </div>
         </section>
       </main>

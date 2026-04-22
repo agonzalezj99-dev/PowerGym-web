@@ -16,10 +16,29 @@ const Contacto = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Consulta enviada:", form);
-    alert("¡Consulta enviada con éxito!");
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contacto`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Error al enviar la consulta");
+        return;
+      }
+
+      alert("¡Consulta enviada con éxito!");
+      setForm({ nombre: "", email: "", mensaje: "" });
+    } catch (error) {
+      console.error(error);
+      alert("Error al conectar con el servidor");
+    }
   };
 
   return (

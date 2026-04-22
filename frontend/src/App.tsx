@@ -4,6 +4,7 @@ import Inicio from "./pages/Inicio";
 import Horarios from "./pages/Horarios";
 import Registro from "./pages/Registro";
 import Contacto from "./pages/Contacto";
+import Login from "./pages/Login";
 import "./index.css";
 
 const AppContent = () => {
@@ -15,6 +16,7 @@ const AppContent = () => {
         <Route path="/horarios" element={<Horarios />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/contacto" element={<Contacto />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );
