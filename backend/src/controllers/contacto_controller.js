@@ -1,20 +1,22 @@
-const express = require('express');
-const cors = require('cors');
-const { Resend } = require('resend');
-require('dotenv').config();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
+const db = require("../config/db");
+const { Resend } = require("resend");
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-app.post('/contacto', async (req, res) => {
+// ENVIAR CONSULTA
+const enviarConsulta = async (req, res) => {
   const { nombre, email, mensaje } = req.body;
 
   try {
+    // Guarda en la base de datos
+    await db.query(
+      "INSERT INTO consultas (nombre, email, mensaje) VALUES (?, ?, ?)",
+      [nombre, email, mensaje]
+    );
+
+    // Envía el email
     await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: "onboarding@resend.dev",
       to: process.env.EMAIL_DESTINO,
       subject: `Nueva consulta de ${nombre}`,
       html: `
@@ -24,12 +26,25 @@ app.post('/contacto', async (req, res) => {
         <p><b>Mensaje:</b> ${mensaje}</p>
       `
     });
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error al enviar:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+    res.json({ mensaje: "Consulta enviada correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al enviar la consulta" });
+  }
+};
+
+// VER TODAS LAS CONSULTAS (solo admin)
+const getConsultas = async (req, res) => {
+  try {
+    const [consultas] = await db.query(
+      "SELECT * FROM consultas ORDER BY fecha DESC"
+    );
+    res.json(consultas);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener las consultas" });
+  }
+};
+
+module.exports = { enviarConsulta, getConsultas };
