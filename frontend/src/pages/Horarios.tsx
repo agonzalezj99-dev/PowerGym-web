@@ -1,14 +1,39 @@
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const clases = [
-  { nombre: "Yoga",     lunes: "9:00-10:00", martes: "-",          miercoles: "9:00-10:00", jueves: "-",          viernes: "9:00-10:00" },
-  { nombre: "Spinning", lunes: "18:30-19:30", martes: "18:30-19:30", miercoles: "-",         jueves: "18:30-19:30", viernes: "18:30-19:30" },
-  { nombre: "Zumba",    lunes: "-",          martes: "19:30-20:30", miercoles: "-",         jueves: "19:30-20:30", viernes: "-" },
-];
+interface Clase {
+  id: number;
+  nombre: string;
+  instructor: string;
+  dia_semana: string;
+  hora_inicio: string;
+  hora_fin: string;
+  plazas_max: number;
+}
+
+const diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes"];
 
 const Horarios = () => {
+  const [clases, setClases] = useState<Clase[]>([]);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/clases`)
+      .then((res) => res.json())
+      .then((data) => setClases(data));
+  }, []);
+
+  const getHorario = (nombre: string, dia: string) => {
+    const clase = clases.find(
+      (c) => c.nombre === nombre && c.dia_semana === dia
+    );
+    if (!clase) return "-";
+    return `${clase.hora_inicio.slice(0, 5)}-${clase.hora_fin.slice(0, 5)}`;
+  };
+
+  const nombresUnicos = [...new Set(clases.map((c) => c.nombre))];
+
   return (
     <>
       <Header subtitle="Consulta todos nuestros horarios de apertura y clases" />
@@ -29,14 +54,12 @@ const Horarios = () => {
                 </tr>
               </thead>
               <tbody>
-                {clases.map((c) => (
-                  <tr key={c.nombre}>
-                    <td><strong>{c.nombre}</strong></td>
-                    <td>{c.lunes}</td>
-                    <td>{c.martes}</td>
-                    <td>{c.miercoles}</td>
-                    <td>{c.jueves}</td>
-                    <td>{c.viernes}</td>
+                {nombresUnicos.map((nombre) => (
+                  <tr key={nombre}>
+                    <td><strong>{nombre}</strong></td>
+                    {diasSemana.map((dia) => (
+                      <td key={dia}>{getHorario(nombre, dia)}</td>
+                    ))}
                   </tr>
                 ))}
               </tbody>
