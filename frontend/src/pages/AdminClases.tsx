@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import Navbar from "../components/Navbar";
+import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 
 interface Clase {
@@ -76,7 +76,7 @@ const Admin = () => {
   return (
     <>
       <Header subtitle="Panel de Administración" />
-      <Navbar />
+      <NavbarAdmin />
       <main className="container">
         <div style={{ gridColumn: "1 / -1" }}>
           <section id="clases">

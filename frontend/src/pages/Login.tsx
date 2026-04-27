@@ -38,7 +38,7 @@ const Login = () => {
 
       // Redirige según el rol
       if (data.rol === "admin") {
-        navigate("/admin");
+        navigate("/adminClases");
       } else {
         navigate("/");
       }

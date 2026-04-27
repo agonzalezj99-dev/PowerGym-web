@@ -67,4 +67,21 @@ const cancelarInscripcion = async (req, res) => {
   }
 };
 
-module.exports = { getMisInscripciones, inscribirse, cancelarInscripcion };
+const getTodasInscripciones = async (req, res) => {
+  try {
+    const result = await db.query(
+      `SELECT i.id, u.nombre as usuario_nombre, u.email as usuario_email,
+              c.nombre as clase_nombre, c.dia_semana, c.hora_inicio, c.hora_fin, i.fecha
+       FROM inscripciones i
+       JOIN usuarios u ON i.usuario_id = u.id
+       JOIN clases c ON i.clase_id = c.id
+       ORDER BY i.fecha DESC`
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener las inscripciones" });
+  }
+};
+
+module.exports = { getMisInscripciones, inscribirse, cancelarInscripcion, getTodasInscripciones };

@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
+  const token = localStorage.getItem("token");
+  const rol = localStorage.getItem("rol");
+
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid justify-content-center">
@@ -18,6 +21,11 @@ const Navbar = () => {
             <li className="nav-item"><NavLink className="nav-link" to="/">Inicio</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link" to="/horarios">Horarios</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link" to="/contacto">Contacto</NavLink></li>
+            {token && rol !== "admin" && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/inscripciones">Inscripciones</NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

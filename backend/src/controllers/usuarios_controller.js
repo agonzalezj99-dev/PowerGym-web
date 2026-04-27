@@ -62,48 +62,5 @@ const login = async (req, res) => {
   }
 };
 
-// VER PERFIL
-const getPerfil = async (req, res) => {
-  try {
-    const result = await db.query(
-      "SELECT id, nombre, email, fecha_nacimiento, membresia, rol, fecha_registro FROM usuarios WHERE id = $1",
-      [req.usuario.id]
-    );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al obtener el perfil" });
-  }
-};
 
-// EDITAR PERFIL
-const updatePerfil = async (req, res) => {
-  const { nombre, fecha_nacimiento, membresia } = req.body;
-
-  try {
-    await db.query(
-      "UPDATE usuarios SET nombre = $1, fecha_nacimiento = $2, membresia = $3 WHERE id = $4",
-      [nombre, fecha_nacimiento, membresia, req.usuario.id]
-    );
-    res.json({ mensaje: "Perfil actualizado correctamente" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al actualizar el perfil" });
-  }
-};
-
-// BORRAR PERFIL
-const deletePerfil = async (req, res) => {
-  try {
-    await db.query("DELETE FROM usuarios WHERE id = $1", [req.usuario.id]);
-    res.json({ mensaje: "Cuenta eliminada correctamente" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al eliminar la cuenta" });
-  }
-};
-
-module.exports = { register, login, getPerfil, updatePerfil, deletePerfil };
+module.exports = { register, login };

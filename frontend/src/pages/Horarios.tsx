@@ -17,6 +17,8 @@ const diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes"];
 
 const Horarios = () => {
   const [clases, setClases] = useState<Clase[]>([]);
+  const token = localStorage.getItem("token");
+  const rol = localStorage.getItem("rol");
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/clases`)
@@ -31,6 +33,31 @@ const Horarios = () => {
   };
 
   const nombresUnicos = [...new Set(clases.map((c) => c.nombre))];
+
+  const handleInscribirse = async (clase_id: number) => {
+    if (!token) {
+      alert("Debes iniciar sesión para inscribirte");
+      return;
+    }
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/inscripciones`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ clase_id }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error || "Error al inscribirse");
+      return;
+    }
+
+    alert("¡Inscripción realizada correctamente!");
+  };
 
   return (
     <>
@@ -62,6 +89,14 @@ const Horarios = () => {
                           {horarios.length === 0 ? "-" : horarios.map((h) => (
                             <div key={h.id}>
                               {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
+                              {token && rol !== "admin" && (
+                                <button
+                                  onClick={() => handleInscribirse(h.id)}
+                                  style={{ marginLeft: "8px", background: "#2ecc71", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", padding: "2px 6px" }}
+                                >
+                                  +
+                                </button>
+                              )}
                             </div>
                           ))}
                         </td>
