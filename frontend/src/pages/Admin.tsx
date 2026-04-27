@@ -33,13 +33,11 @@ const Admin = () => {
       .then((data) => setClases(data));
   }, []);
 
-  const getHorario = (nombre: string, dia: string) => {
-    const clase = clases.find(
-      (c) => c.nombre === nombre && c.dia_semana === dia
-    );
-    if (!clase) return null;
-    return clase;
-  };
+    const getHorarios = (nombre: string, dia: string) => {
+        return clases.filter(
+            (c) => c.nombre === nombre && c.dia_semana === dia
+        );
+    };
 
   const nombresUnicos = [...new Set(clases.map((c) => c.nombre))];
 
@@ -98,24 +96,24 @@ const Admin = () => {
                 {nombresUnicos.map((nombre) => (
                   <tr key={nombre}>
                     <td><strong>{nombre}</strong></td>
-                    {diasSemana.map((dia) => {
-                      const clase = getHorario(nombre, dia);
-                      return (
-                        <td key={dia}>
-                          {clase ? (
-                            <>
-                              {clase.hora_inicio.slice(0, 5)}-{clase.hora_fin.slice(0, 5)}
-                              <button
-                                onClick={() => handleBorrar(clase.id)}
-                                style={{ marginLeft: "8px", background: "red", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", padding: "2px 6px" }}
-                              >
-                                ✕
-                              </button>
-                            </>
-                          ) : "-"}
-                        </td>
-                      );
-                    })}
+                        {diasSemana.map((dia) => {
+                            const horarios = getHorarios(nombre, dia);
+                            return (
+                                <td key={dia}>
+                                    {horarios.length === 0 ? "-" : horarios.map((h) => (
+                                        <div key={h.id}>
+                                            {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
+                                            <button
+                                                onClick={() => handleBorrar(h.id)}
+                                                style={{ marginLeft: "8px", background: "red", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", padding: "2px 6px" }}
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                    ))}
+                                </td>
+                            );
+                        })}
                   </tr>
                 ))}
               </tbody>

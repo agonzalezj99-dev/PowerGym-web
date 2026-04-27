@@ -24,12 +24,10 @@ const Horarios = () => {
       .then((data) => setClases(data));
   }, []);
 
-  const getHorario = (nombre: string, dia: string) => {
-    const clase = clases.find(
+  const getHorarios = (nombre: string, dia: string) => {
+    return clases.filter(
       (c) => c.nombre === nombre && c.dia_semana === dia
     );
-    if (!clase) return "-";
-    return `${clase.hora_inicio.slice(0, 5)}-${clase.hora_fin.slice(0, 5)}`;
   };
 
   const nombresUnicos = [...new Set(clases.map((c) => c.nombre))];
@@ -57,9 +55,18 @@ const Horarios = () => {
                 {nombresUnicos.map((nombre) => (
                   <tr key={nombre}>
                     <td><strong>{nombre}</strong></td>
-                    {diasSemana.map((dia) => (
-                      <td key={dia}>{getHorario(nombre, dia)}</td>
-                    ))}
+                    {diasSemana.map((dia) => {
+                      const horarios = getHorarios(nombre, dia);
+                      return (
+                        <td key={dia}>
+                          {horarios.length === 0 ? "-" : horarios.map((h) => (
+                            <div key={h.id}>
+                              {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
+                            </div>
+                          ))}
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))}
               </tbody>
