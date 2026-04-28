@@ -13,34 +13,7 @@
 
 <body>
   <div id="root"></div>
-  <div class="chat-container">
-    <iframe allow="microphone;" width="250" height="350"
-      src="https://console.dialogflow.com/api-client/demo/embedded/c8783e8d-650a-428f-a844-d5101c70120c"
-      style="border: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></iframe>
-  </div>
-  <script type="module" src="/src/main.tsx"></script>
-  <script>
-    function actualizarChatbot() {
-      const esAdmin = window.location.pathname.startsWith("/admin");
-      const chatContainer = document.querySelector(".chat-container");
-      if (chatContainer) {
-        chatContainer.style.display = esAdmin ? "none" : "block";
-      }
-    }
-
-    // Comprueba al cargar
-    actualizarChatbot();
-
-    // Comprueba cuando cambia la URL
-    window.addEventListener("popstate", actualizarChatbot);
-
-    // Para React Router que no dispara popstate siempre
-    const originalPushState = history.pushState;
-    history.pushState = function () {
-      originalPushState.apply(this, arguments);
-      actualizarChatbot();
-    };
-  </script>
+  <div class="chat-container"> <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>

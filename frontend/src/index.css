@@ -139,16 +139,6 @@ button[type="submit"]:hover, .btn:hover { background-color: #1d8649; color: whit
 
 footer { background-color: #2c3e50; color: white; text-align: center; padding: 20px; margin-top: 20px; border-top: 5px solid #f39c12; }
 
-/* ChatBot */
-.chat-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    transform: scale(0.8);
-    transform-origin: bottom right;
-    z-index: 9999;
-  }
-
 /* MODO OSCURO */
 .oscuro { background-color: #121212; color: #e0e0e0; }
 .oscuro header, .oscuro footer { background-color: #000; }
