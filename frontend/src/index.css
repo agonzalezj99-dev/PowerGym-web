@@ -1,27 +1,52 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6; color: #333; background-color: #f4f4f4;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1 { font-size: 1.8em; }
-h2 { font-size: 1.4em; }
-h3 { font-size: 1.2em; }
+h1 {
+  font-size: 1.8em;
+}
 
-button, input, textarea, select, a {
+h2 {
+  font-size: 1.4em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+button,
+input,
+textarea,
+select,
+a {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
 header {
-  background-color: #2c3e50; color: white; padding: 40px 20px;
-  text-align: center; position: relative;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background-color: #2c3e50;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header-auth {
@@ -42,7 +67,7 @@ header {
 .header-btn {
   background-color: transparent;
   color: white;
-  border: 2px solid rgba(255,255,255,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 5px;
   padding: 6px 12px;
   cursor: pointer;
@@ -51,54 +76,174 @@ header {
 }
 
 .header-btn:hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: white;
 }
 
 #modoBoton {
-  position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
-  background-color: transparent; color: white;
-  border: 2px solid rgba(255,255,255,0.4); border-radius: 50%;
-  width: 45px; height: 45px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 1000; transition: all 0.3s ease;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
-#modoBoton:hover { background-color: rgba(255,255,255,0.1); border-color: white; }
 
-nav.navbar { background-color: #34495e; }
-nav.navbar .nav-link { color: #ffffff; text-decoration: none; font-weight: bold; padding: 4px 8px; transition: color 0.3s ease; }
+#modoBoton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+nav.navbar {
+  background-color: #34495e;
+}
+
+nav.navbar .nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 4px 8px;
+  transition: color 0.3s ease;
+}
+
 nav.navbar .nav-link:hover,
-nav.navbar .nav-link.active { color: #f39c12; }
-nav.navbar .navbar-toggler { border-color: rgba(255,255,255,0.4); }
-nav.navbar .navbar-toggler-icon { filter: invert(1); }
+nav.navbar .nav-link.active {
+  color: #f39c12;
+}
+
+nav.navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+nav.navbar .navbar-toggler-icon {
+  filter: invert(1);
+}
 
 /*Menu hamburguesa */
 .navbar-toggler {
-  border-color: rgba(255,255,255,0.4);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .navbar-toggler-icon {
   filter: invert(1);
 }
 
-main.container { display: grid; grid-template-columns: 1fr; gap: 20px; padding-top: 20px; }
+main.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding-top: 20px;
+}
 
-section { padding: 30px; background-color: white; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-aside { padding: 20px; background-color: #34495e; color: white; border-radius: 8px; margin-bottom: 20px; }
+section {
+  padding: 30px;
+  background-color: white;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
 
-#servicios article { background: #f9f9f9; padding: 15px; margin-bottom: 10px; border-left: 5px solid #2ecc71; border-radius: 5px; }
+aside {
+  padding: 20px;
+  background-color: #34495e;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
 
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-th { background-color: #2c3e50; color: white; }
+#servicios article {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-left: 5px solid #2ecc71;
+  border-radius: 5px;
+}
 
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-.form-group input:not([type="radio"]), .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
 
-button[type="submit"], .btn { background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; text-decoration: none; display: inline-block; }
-button[type="submit"]:focus, .btn:focus { background-color: #1e32a8; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; text-decoration: none; display: inline-block;}
-button[type="submit"]:hover, .btn:hover { background-color: #1d8649; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; text-decoration: none; display: inline-block;}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input:not([type="radio"]),
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"],
+.btn {
+  background-color: #2ecc71;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button[type="submit"]:focus,
+.btn:focus {
+  background-color: #1e32a8;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button[type="submit"]:hover,
+.btn:hover {
+  background-color: #1d8649;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  text-decoration: none;
+  display: inline-block;
+}
+
 .btn-inscribirse {
   display: block;
   margin-top: 5px;
@@ -137,21 +282,62 @@ button[type="submit"]:hover, .btn:hover { background-color: #1d8649; color: whit
   background-color: #c0392b;
 }
 
-footer { background-color: #2c3e50; color: white; text-align: center; padding: 20px; margin-top: 20px; border-top: 5px solid #f39c12; }
+footer {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  border-top: 5px solid #f39c12;
+}
 
 /* MODO OSCURO */
-.oscuro { background-color: #121212; color: #e0e0e0; }
-.oscuro header, .oscuro footer { background-color: #000; }
-.oscuro nav.navbar { background-color: #1a1a1a; }
-.oscuro section, .oscuro aside { background-color: #1e1e2e; color: #ffffff; }
-.oscuro #servicios article { background-color: #2a2a3e; color: #ffffff; }
-.oscuro #modoBoton { color: #ffd700; border-color: #ffd700; }
-.oscuro td { border-color: #444; }
-.oscuro input, .oscuro textarea { background-color: #2a2a3e; color: white; border: 1px solid #444; }
+.oscuro {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.oscuro header,
+.oscuro footer {
+  background-color: #000;
+}
+
+.oscuro nav.navbar {
+  background-color: #1a1a1a;
+}
+
+.oscuro section,
+.oscuro aside {
+  background-color: #1e1e2e;
+  color: #ffffff;
+}
+
+.oscuro #servicios article {
+  background-color: #2a2a3e;
+  color: #ffffff;
+}
+
+.oscuro #modoBoton {
+  color: #ffd700;
+  border-color: #ffd700;
+}
+
+.oscuro td {
+  border-color: #444;
+}
+
+.oscuro input,
+.oscuro textarea {
+  background-color: #2a2a3e;
+  color: white;
+  border: 1px solid #444;
+}
+
 .oscuro .header-btn {
   color: #ffd700;
   border-color: #ffd700;
 }
+
 .oscuro .btn-inscribirse {
   background-color: #27ae60;
 }
