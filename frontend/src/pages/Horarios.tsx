@@ -92,9 +92,10 @@ const Horarios = () => {
                               {token && rol !== "admin" && (
                                 <button
                                   onClick={() => handleInscribirse(h.id)}
-                                  style={{ marginLeft: "8px", background: "#2ecc71", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", padding: "2px 6px" }}
+                                  className="btn-inscribirse"
+                                  title="Inscribirse a esta clase"
                                 >
-                                  +
+                                  Apuntarme
                                 </button>
                               )}
                             </div>

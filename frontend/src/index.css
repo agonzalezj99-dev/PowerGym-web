@@ -55,11 +55,6 @@ header {
   border-color: white;
 }
 
-.oscuro .header-btn {
-  color: #ffd700;
-  border-color: #ffd700;
-}
-
 #modoBoton {
   position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
   background-color: transparent; color: white;
@@ -104,7 +99,43 @@ th { background-color: #2c3e50; color: white; }
 button[type="submit"], .btn { background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; text-decoration: none; display: inline-block; }
 button[type="submit"]:focus, .btn:focus { background-color: #1e32a8; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; text-decoration: none; display: inline-block;}
 button[type="submit"]:hover, .btn:hover { background-color: #1d8649; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; text-decoration: none; display: inline-block;}
+.btn-inscribirse {
+  display: block;
+  margin-top: 5px;
+  width: 100%;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.8em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
 
+.btn-inscribirse:hover {
+  background-color: #1d8649;
+}
+
+.btn-borrar {
+  display: block;
+  margin-top: 5px;
+  width: 100%;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.8em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-borrar:hover {
+  background-color: #c0392b;
+}
 
 footer { background-color: #2c3e50; color: white; text-align: center; padding: 20px; margin-top: 20px; border-top: 5px solid #f39c12; }
 
@@ -127,3 +158,10 @@ footer { background-color: #2c3e50; color: white; text-align: center; padding: 2
 .oscuro #modoBoton { color: #ffd700; border-color: #ffd700; }
 .oscuro td { border-color: #444; }
 .oscuro input, .oscuro textarea { background-color: #2a2a3e; color: white; border: 1px solid #444; }
+.oscuro .header-btn {
+  color: #ffd700;
+  border-color: #ffd700;
+}
+.oscuro .btn-inscribirse {
+  background-color: #27ae60;
+}
