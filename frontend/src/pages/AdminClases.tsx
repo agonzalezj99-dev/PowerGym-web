@@ -105,7 +105,7 @@ const Admin = () => {
                                             {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
                                             <button
                                               onClick={() => handleBorrar(h.id)}
-                                              class="btn-borrar"
+                                              className="btn-borrar"
                                             >
                                               Borrar clase
                                             </button>
