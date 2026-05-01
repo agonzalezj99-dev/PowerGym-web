@@ -16,11 +16,18 @@ interface Clase {
 
 const diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes"];
 
+const NOMBRES_CLASES = ["Yoga", "Spinning", "Zumba", "Pilates", "CrossFit", "Body Pump"];
+const INSTRUCTORES = ["Laura Sánchez", "Carlos Mena", "Ana Torres", "Pedro Ruiz", "María López"];
+
 const Admin = () => {
   const [clases, setClases] = useState<Clase[]>([]);
   const [form, setForm] = useState({
-    nombre: "", instructor: "", dia_semana: "lunes",
-    hora_inicio: "", hora_fin: "", plazas_max: 20
+    nombre: NOMBRES_CLASES[0],
+    instructor: INSTRUCTORES[0],
+    dia_semana: "lunes",
+    hora_inicio: "",
+    hora_fin: "",
+    plazas_max: 20
   });
   const navigate = useNavigate();
 
@@ -33,11 +40,9 @@ const Admin = () => {
       .then((data) => setClases(data));
   }, []);
 
-    const getHorarios = (nombre: string, dia: string) => {
-        return clases.filter(
-            (c) => c.nombre === nombre && c.dia_semana === dia
-        );
-    };
+  const getHorarios = (nombre: string, dia: string) => {
+    return clases.filter((c) => c.nombre === nombre && c.dia_semana === dia);
+  };
 
   const nombresUnicos = [...new Set(clases.map((c) => c.nombre))];
 
@@ -68,7 +73,14 @@ const Admin = () => {
       const nuevasClases = await fetch(`${import.meta.env.VITE_API_URL}/api/clases`)
         .then((r) => r.json());
       setClases(nuevasClases);
-      setForm({ nombre: "", instructor: "", dia_semana: "lunes", hora_inicio: "", hora_fin: "", plazas_max: 20 });
+      setForm({
+        nombre: NOMBRES_CLASES[0],
+        instructor: INSTRUCTORES[0],
+        dia_semana: "lunes",
+        hora_inicio: "",
+        hora_fin: "",
+        plazas_max: 20
+      });
       alert("Clase añadida correctamente");
     }
   };
@@ -96,24 +108,24 @@ const Admin = () => {
                 {nombresUnicos.map((nombre) => (
                   <tr key={nombre}>
                     <td><strong>{nombre}</strong></td>
-                        {diasSemana.map((dia) => {
-                            const horarios = getHorarios(nombre, dia);
-                            return (
-                                <td key={dia}>
-                                    {horarios.length === 0 ? "-" : horarios.map((h) => (
-                                        <div key={h.id}>
-                                            {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
-                                            <button
-                                              onClick={() => handleBorrar(h.id)}
-                                              className="btn-borrar"
-                                            >
-                                              Borrar clase
-                                            </button>
-                                        </div>
-                                    ))}
-                                </td>
-                            );
-                        })}
+                    {diasSemana.map((dia) => {
+                      const horarios = getHorarios(nombre, dia);
+                      return (
+                        <td key={dia}>
+                          {horarios.length === 0 ? "-" : horarios.map((h) => (
+                            <div key={h.id}>
+                              {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
+                              <button
+                                onClick={() => handleBorrar(h.id)}
+                                className="btn-borrar"
+                              >
+                                Borrar clase
+                              </button>
+                            </div>
+                          ))}
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))}
               </tbody>
@@ -125,11 +137,19 @@ const Admin = () => {
             <div>
               <div className="form-group">
                 <label>Nombre</label>
-                <input name="nombre" value={form.nombre} onChange={handleChange} />
+                <select name="nombre" value={form.nombre} onChange={handleChange}>
+                  {NOMBRES_CLASES.map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
               </div>
               <div className="form-group">
                 <label>Instructor</label>
-                <input name="instructor" value={form.instructor} onChange={handleChange} />
+                <select name="instructor" value={form.instructor} onChange={handleChange}>
+                  {INSTRUCTORES.map((i) => (
+                    <option key={i} value={i}>{i}</option>
+                  ))}
+                </select>
               </div>
               <div className="form-group">
                 <label>Día</label>
