@@ -37,9 +37,7 @@ const Horarios = () => {
   }, []);
 
   const getHorarios = (nombre: string, dia: string) => {
-    return clases.filter(
-      (c) => c.nombre === nombre && c.dia_semana === dia
-    );
+    return clases.filter((c) => c.nombre === nombre && c.dia_semana === dia);
   };
 
   const nombresUnicos = [...new Set(clases.map((c) => c.nombre))];
@@ -49,23 +47,16 @@ const Horarios = () => {
       alert(t("horarios.loginRequired"));
       return;
     }
-
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/inscripciones`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ clase_id }),
     });
-
     const data = await res.json();
-
     if (!res.ok) {
       alert(data.error || t("horarios.joinError"));
       return;
     }
-
     alert(t("horarios.joinSuccess"));
   };
 
@@ -77,53 +68,68 @@ const Horarios = () => {
         <div style={{ gridColumn: "1 / -1" }}>
           <section id="clases">
             <h2>{t("horarios.classesTitle")}</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>{t("horarios.classCol")}</th>
-                  {diasLabel.map((diaLabel) => (
-                    <th key={diaLabel}>{diaLabel}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {nombresUnicos.map((nombre) => (
-                  <tr key={nombre}>
-                    <td><strong>{nombre}</strong></td>
-                    {diasSemana.map((dia) => {
-                      const horarios = getHorarios(nombre, dia);
-                      return (
-                        <td key={dia}>
-                          {horarios.length === 0 ? "-" : horarios.map((h) => (
-                            <div key={h.id}>
-                              {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
-                              {token && rol !== "admin" && (
-                                <button
-                                  onClick={() => handleInscribirse(h.id)}
-                                  className="btn-inscribirse"
-                                  title={t("horarios.joinTooltip")}
-                                >
-                                  {t("horarios.joinClass")}
-                                </button>
-                              )}
-                            </div>
-                          ))}
-                        </td>
-                      );
-                    })}
+            <div className="tabla-wrapper">
+              <table className="tabla-horarios">
+                <thead>
+                  <tr>
+                    <th>{t("horarios.classCol")}</th>
+                    {diasLabel.map((diaLabel) => (
+                      <th key={diaLabel}>{diaLabel}</th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {nombresUnicos.map((nombre, i) => (
+                    <tr key={nombre} className={i % 2 === 0 ? "fila-par" : "fila-impar"}>
+                      <td className="celda-clase"><strong>{nombre}</strong></td>
+                      {diasSemana.map((dia) => {
+                        const horarios = getHorarios(nombre, dia);
+                        return (
+                          <td key={dia} className="celda-horario">
+                            {horarios.length === 0 ? (
+                              <span className="sin-clase">—</span>
+                            ) : horarios.map((h) => (
+                              <div key={h.id} className="horario-item">
+                                <span className="horario-hora">
+                                  {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
+                                </span>
+                                {token && rol !== "admin" && (
+                                  <button
+                                    onClick={() => handleInscribirse(h.id)}
+                                    className="btn-inscribirse"
+                                    title={t("horarios.joinTooltip")}
+                                  >
+                                    {t("horarios.joinClass")}
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
 
-          <section id="apertura">
+          <section id="apertura" className="apertura-section">
             <h2>{t("horarios.openingTitle")}</h2>
-            <ul>
-              <li>{t("horarios.openWeek")}</li>
-              <li>{t("horarios.openSat")}</li>
-              <li>{t("horarios.openSun")}</li>
-            </ul>
+            <div className="apertura-grid">
+              <div className="apertura-item">
+                <span className="apertura-emoji">📅</span>
+                <p>{t("horarios.openWeek")}</p>
+              </div>
+              <div className="apertura-item">
+                <span className="apertura-emoji">📅</span>
+                <p>{t("horarios.openSat")}</p>
+              </div>
+              <div className="apertura-item">
+                <span className="apertura-emoji">🚫</span>
+                <p>{t("horarios.openSun")}</p>
+              </div>
+            </div>
           </section>
         </div>
       </main>

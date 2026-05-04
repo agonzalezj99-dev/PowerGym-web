@@ -25,7 +25,6 @@ const MisInscripciones = () => {
       navigate("/login");
       return;
     }
-
     fetch(`${import.meta.env.VITE_API_URL}/api/inscripciones`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -38,7 +37,6 @@ const MisInscripciones = () => {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
-
     if (res.ok) {
       setInscripciones(inscripciones.filter((i) => i.id !== id));
       alert(t("inscripciones.canceled"));
@@ -53,37 +51,31 @@ const MisInscripciones = () => {
         <section style={{ gridColumn: "1 / -1" }}>
           <h2>{t("inscripciones.title")}</h2>
           {inscripciones.length === 0 ? (
-            <p>{t("inscripciones.empty")}</p>
+            <div className="inscripciones-empty">
+              <span style={{ fontSize: "3em" }}>📋</span>
+              <p>{t("inscripciones.empty")}</p>
+            </div>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>{t("inscripciones.classCol")}</th>
-                  <th>{t("inscripciones.instructorCol")}</th>
-                  <th>{t("inscripciones.dayCol")}</th>
-                  <th>{t("inscripciones.scheduleCol")}</th>
-                  <th>{t("inscripciones.actionCol")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {inscripciones.map((i) => (
-                  <tr key={i.id}>
-                    <td><strong>{i.nombre}</strong></td>
-                    <td>{i.instructor}</td>
-                    <td>{i.dia_semana}</td>
-                    <td>{i.hora_inicio.slice(0, 5)}-{i.hora_fin.slice(0, 5)}</td>
-                    <td>
-                      <button
-                        onClick={() => handleCancelar(i.id)}
-                        style={{ background: "red", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", padding: "4px 10px" }}
-                      >
-                        {t("inscripciones.cancel")}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="inscripciones-grid">
+              {inscripciones.map((i) => (
+                <div key={i.id} className="inscripcion-card">
+                  <div className="inscripcion-header">
+                    <h3>{i.nombre}</h3>
+                    <span className="inscripcion-dia">{i.dia_semana}</span>
+                  </div>
+                  <div className="inscripcion-body">
+                    <p>👨‍🏫 {i.instructor}</p>
+                    <p>🕐 {i.hora_inicio.slice(0, 5)}-{i.hora_fin.slice(0, 5)}</p>
+                  </div>
+                  <button
+                    onClick={() => handleCancelar(i.id)}
+                    className="btn-cancelar"
+                  >
+                    {t("inscripciones.cancel")}
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </section>
       </main>
