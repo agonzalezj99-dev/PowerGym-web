@@ -1,40 +1,38 @@
 -- ============================================================
---  PowerGym — Base de datos 
+--  PowerGym — Base de datos (PostgreSQL)
 -- ============================================================
-
-CREATE DATABASE IF NOT EXISTS powergym
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_spanish_ci;
-
-USE powergym;
-
+ 
 -- ------------------------------------------------------------
 -- 1. USUARIOS
 -- ------------------------------------------------------------
 CREATE TABLE usuarios (
-    id               INT          UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id               SERIAL       PRIMARY KEY,
     nombre           VARCHAR(100) NOT NULL,
     email            VARCHAR(150) NOT NULL UNIQUE,
     contrasena       VARCHAR(255) NOT NULL,
     fecha_nacimiento DATE         NOT NULL,
-    membresia        ENUM('basica','pro','premium') NULL DEFAULT 'basica',
-    rol              ENUM('admin','socio') NOT NULL DEFAULT 'socio',
+    membresia        VARCHAR(10)  NOT NULL DEFAULT 'basica' CHECK (membresia IN ('basica','pro','premium')),
+    rol              VARCHAR(10)  NOT NULL DEFAULT 'socio'  CHECK (rol IN ('admin','socio')),
     fecha_registro   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
+);
+ 
+-- Usuario admin (contraseña: admin)
+INSERT INTO usuarios (nombre, email, contrasena, fecha_nacimiento, membresia, rol)
+VALUES ('Administrador', 'admin@powergym.com', '$2y$10$gFbuJovwn9NB/UyVsSIRIOuEUuxesVgpXT1c/B4qynXXMvZcfQfpC', '1990-01-01', 'premium', 'admin');
+ 
 -- ------------------------------------------------------------
 -- 2. CLASES
 -- ------------------------------------------------------------
 CREATE TABLE clases (
-    id          INT         UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombre      VARCHAR(80) NOT NULL,
+    id          SERIAL       PRIMARY KEY,
+    nombre      VARCHAR(80)  NOT NULL,
     instructor  VARCHAR(100) NOT NULL,
-    dia_semana  ENUM('lunes','martes','miercoles','jueves','viernes','sabado') NOT NULL,
-    hora_inicio TIME        NOT NULL,
-    hora_fin    TIME        NOT NULL,
-    plazas_max  TINYINT     UNSIGNED NOT NULL DEFAULT 20
-) ENGINE=InnoDB;
-
+    dia_semana  VARCHAR(10)  NOT NULL CHECK (dia_semana IN ('lunes','martes','miercoles','jueves','viernes','sabado')),
+    hora_inicio TIME         NOT NULL,
+    hora_fin    TIME         NOT NULL,
+    plazas_max  SMALLINT     NOT NULL DEFAULT 20
+);
+ 
 INSERT INTO clases (nombre, instructor, dia_semana, hora_inicio, hora_fin) VALUES
     ('Yoga',     'Laura Sánchez', 'lunes',     '09:00', '10:00'),
     ('Yoga',     'Laura Sánchez', 'miercoles', '09:00', '10:00'),
@@ -45,32 +43,32 @@ INSERT INTO clases (nombre, instructor, dia_semana, hora_inicio, hora_fin) VALUE
     ('Spinning', 'Carlos Mena',   'viernes',   '18:30', '19:30'),
     ('Zumba',    'Ana Torres',    'martes',    '19:30', '20:30'),
     ('Zumba',    'Ana Torres',    'jueves',    '19:30', '20:30');
-
+ 
 -- ------------------------------------------------------------
 -- 3. INSCRIPCIONES  (usuario ↔ clase)
 -- ------------------------------------------------------------
 CREATE TABLE inscripciones (
-    id          INT       UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    usuario_id  INT       UNSIGNED NOT NULL,
-    clase_id    INT       UNSIGNED NOT NULL,
+    id          SERIAL    PRIMARY KEY,
+    usuario_id  INT       NOT NULL,
+    clase_id    INT       NOT NULL,
     fecha       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
+ 
     CONSTRAINT fk_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE,
     CONSTRAINT fk_clase   FOREIGN KEY (clase_id)   REFERENCES clases   (id) ON DELETE CASCADE,
     CONSTRAINT uq_unico   UNIQUE (usuario_id, clase_id)
-) ENGINE=InnoDB;
-
+);
+ 
 -- ------------------------------------------------------------
 -- 4. CONSULTAS  (formulario de contacto)
 -- ------------------------------------------------------------
 CREATE TABLE consultas (
-    id          INT          UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombre      VARCHAR(100) NOT NULL,
-    email       VARCHAR(150) NOT NULL,
-    mensaje     TEXT         NOT NULL,
-    fecha       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
+    id      SERIAL       PRIMARY KEY,
+    nombre  VARCHAR(100) NOT NULL,
+    email   VARCHAR(150) NOT NULL,
+    mensaje TEXT         NOT NULL,
+    fecha   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+ 
 -- ============================================================
 --  FIN DEL SCRIPT
 -- ============================================================
