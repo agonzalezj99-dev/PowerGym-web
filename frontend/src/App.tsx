@@ -9,6 +9,7 @@ import Inscripciones from "./pages/Inscripciones";
 import AdminClases from "./pages/AdminClases";
 import AdminInscripciones from "./pages/AdminInscripciones";
 import Login from "./pages/Login";
+import Perfil from "./pages/Perfil";
 import "./index.css";
 
 const AppContent = () => {
@@ -24,6 +25,7 @@ const AppContent = () => {
         <Route path="/adminClases" element={<AdminClases />} />
         <Route path="/adminInscripciones" element={<AdminInscripciones />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
     </div>
   );

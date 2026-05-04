@@ -1,6 +1,7 @@
 import { useDarkMode } from "../context/DarkModeContext";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { NavLink } from "react-router-dom";
 
 interface HeaderProps {
   subtitle: string;
@@ -35,7 +36,9 @@ const Header = ({ subtitle }: HeaderProps) => {
       <div className="header-auth">
         {token ? (
           <>
-            <span className="header-nombre">{t("header.greeting").replace("{name}", nombre || "")}</span>
+            <NavLink to="/perfil" className="header-nombre">
+              {t("header.greeting").replace("{name}", nombre || "")}
+            </NavLink>
             <button className="header-btn" onClick={handleLogout}>{t("common.logout")}</button>
           </>
         ) : (
