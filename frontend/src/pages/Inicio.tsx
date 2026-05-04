@@ -2,51 +2,45 @@ import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useLanguage } from "../context/LanguageContext";
 
-const servicios = [
-  {
-    titulo: "Musculación",
-    descripcion: "Acceso ilimitado a nuestra sala de pesas y máquinas de última generación.",
-  },
-  {
-    titulo: "Clases Dirigidas",
-    descripcion: "Zumba, Yoga, Spinning, y más. ¡Consulta el horario completo!",
-  },
-  {
-    titulo: "Entrenamiento Personal",
-    descripcion: "Programas personalizados con nuestros entrenadores certificados.",
-  },
-];
+const services = [
+  { titleKey: "inicio.service1.title", descriptionKey: "inicio.service1.description" },
+  { titleKey: "inicio.service2.title", descriptionKey: "inicio.service2.description" },
+  { titleKey: "inicio.service3.title", descriptionKey: "inicio.service3.description" },
+] as const;
 
 const Inicio = () => {
+  const { t } = useLanguage();
+
   return (
     <>
-      <Header subtitle="Tu mejor versión comienza aquí" />
+      <Header subtitle={t("inicio.subtitle")} />
       <Navbar />
       <main className="container">
         <section id="inicio">
-          <h2>⭐ ¡Bienvenido a PowerGym!</h2>
-          <p>Somos tu centro fitness de confianza. ¡Te esperamos!</p>
+          <h2>{t("inicio.welcomeTitle")}</h2>
+          <p>{t("inicio.welcomeText")}</p>
           <br />
-          <Link to="/registro" className="btn">¡Regístrate Ahora!</Link>
+          <Link to="/registro" className="btn">{t("inicio.registerNow")}</Link>
         </section>
 
         <section id="servicios">
-          <h2>💪 Nuestros Servicios</h2>
-          {servicios.map((s) => (
-            <article key={s.titulo} className="servicio">
-              <h3>{s.titulo}</h3>
-              <p>{s.descripcion}</p>
+          <h2>{t("inicio.servicesTitle")}</h2>
+          {services.map((s) => (
+            <article key={s.titleKey} className="servicio">
+              <h3>{t(s.titleKey)}</h3>
+              <p>{t(s.descriptionKey)}</p>
             </article>
           ))}
         </section>
 
         <section id="tarifas">
-          <h2>💰 Tarifas de Membresía</h2>
+          <h2>{t("inicio.pricesTitle")}</h2>
           <div style={{ maxHeight: "150px", overflowY: "auto", border: "1px solid #ccc", padding: "10px" }}>
-            <p>Plan Básico: 30€/mes. Acceso a sala.</p>
-            <p>Plan Pro: 50€/mes. Acceso a sala + 4 clases/mes.</p>
-            <p>Plan Premium: 70€/mes. Acceso total.</p>
+            <p>{t("inicio.basicPlan")}</p>
+            <p>{t("inicio.proPlan")}</p>
+            <p>{t("inicio.premiumPlan")}</p>
           </div>
         </section>
       </main>

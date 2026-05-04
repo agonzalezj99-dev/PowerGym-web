@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Inscripcion {
   id: number;
@@ -17,6 +18,7 @@ const MisInscripciones = () => {
   const [inscripciones, setInscripciones] = useState<Inscripcion[]>([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!token) {
@@ -39,28 +41,28 @@ const MisInscripciones = () => {
 
     if (res.ok) {
       setInscripciones(inscripciones.filter((i) => i.id !== id));
-      alert("Inscripción cancelada correctamente");
+      alert(t("inscripciones.canceled"));
     }
   };
 
   return (
     <>
-      <Header subtitle="Gestiona tus clases inscritas" />
+      <Header subtitle={t("inscripciones.subtitle")} />
       <Navbar />
       <main className="container">
         <section style={{ gridColumn: "1 / -1" }}>
-          <h2>📋 Mis Inscripciones</h2>
+          <h2>{t("inscripciones.title")}</h2>
           {inscripciones.length === 0 ? (
-            <p>No tienes ninguna inscripción activa.</p>
+            <p>{t("inscripciones.empty")}</p>
           ) : (
             <table>
               <thead>
                 <tr>
-                  <th>Clase</th>
-                  <th>Instructor</th>
-                  <th>Día</th>
-                  <th>Horario</th>
-                  <th>Acción</th>
+                  <th>{t("inscripciones.classCol")}</th>
+                  <th>{t("inscripciones.instructorCol")}</th>
+                  <th>{t("inscripciones.dayCol")}</th>
+                  <th>{t("inscripciones.scheduleCol")}</th>
+                  <th>{t("inscripciones.actionCol")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -75,7 +77,7 @@ const MisInscripciones = () => {
                         onClick={() => handleCancelar(i.id)}
                         style={{ background: "red", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", padding: "4px 10px" }}
                       >
-                        Cancelar
+                        {t("inscripciones.cancel")}
                       </button>
                     </td>
                   </tr>

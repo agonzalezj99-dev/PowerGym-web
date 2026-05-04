@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useLanguage } from "../context/LanguageContext";
 
 type Membresia = "basica" | "pro" | "premium" | "";
 
@@ -21,6 +22,7 @@ const Registro = () => {
     fechaNacimiento: "",
     membresia: "",
   });
+  const { t } = useLanguage();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,43 +47,43 @@ const Registro = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.error || "Error al registrarse");
+        alert(data.error || t("register.registerError"));
         return;
       }
 
-      alert("¡Cuenta creada con éxito!");
+      alert(t("register.registerSuccess"));
     } catch (error) {
       console.error(error);
-      alert("Error al conectar con el servidor");
+      alert(t("register.serverError"));
     }
   };
 
   return (
     <>
-      <Header subtitle="Comienza tu camino hacia una vida más saludable" />
+      <Header subtitle={t("register.subtitle")} />
       <Navbar />
       <main className="container">
         <section id="registro-form" style={{ gridColumn: "1 / -1" }}>
-          <h2>📝 Registro de Usuario</h2>
+          <h2>{t("register.title")}</h2>
           <div>
             <div className="form-group">
-              <label htmlFor="nombre">Nombre Completo</label>
+              <label htmlFor="nombre">{t("register.name")}</label>
               <input type="text" id="nombre" name="nombre" value={form.nombre} onChange={handleChange} required />
             </div>
             <div className="form-group">
-              <label htmlFor="email">Correo Electrónico</label>
+              <label htmlFor="email">{t("register.email")}</label>
               <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
             </div>
             <div className="form-group">
-              <label htmlFor="contrasena">Contraseña</label>
+              <label htmlFor="contrasena">{t("register.password")}</label>
               <input type="password" id="contrasena" name="contrasena" value={form.contrasena} onChange={handleChange} required />
             </div>
             <div className="form-group">
-              <label htmlFor="fechaNacimiento">Fecha de Nacimiento</label>
+              <label htmlFor="fechaNacimiento">{t("register.birthDate")}</label>
               <input type="date" id="fechaNacimiento" name="fechaNacimiento" value={form.fechaNacimiento} onChange={handleChange} required />
             </div>
             <div className="form-group">
-              <label>Tipo de Membresía</label>
+              <label>{t("register.membershipType")}</label>
               <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
                 {(["basica", "pro", "premium"] as const).map((m) => (
                   <label key={m}>
@@ -92,13 +94,13 @@ const Registro = () => {
                       checked={form.membresia === m}
                       onChange={handleChange}
                     />{" "}
-                    {m.charAt(0).toUpperCase() + m.slice(1)}
+                    {m === "basica" ? t("register.basic") : m === "pro" ? t("register.pro") : t("register.premium")}
                   </label>
                 ))}
               </div>
             </div>
-            <button type="submit" className="btn" onClick={handleSubmit}>Crear Cuenta</button>
-            <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesion aquí</a></p>
+            <button type="submit" className="btn" onClick={handleSubmit}>{t("register.create")}</button>
+            <p>{t("register.hasAccount")} <a href="/login">{t("register.login")}</a></p>
           </div>
         </section>
       </main>

@@ -129,6 +129,35 @@ nav.navbar .navbar-toggler-icon {
   filter: invert(1);
 }
 
+.language-switch {
+  display: flex;
+  gap: 6px;
+  margin-right: 16px;
+}
+
+.language-btn {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.language-btn:hover {
+  border-color: #f39c12;
+  color: #f39c12;
+}
+
+.language-btn.active {
+  background-color: #f39c12;
+  border-color: #f39c12;
+  color: #1d2630;
+}
+
 /*Menu hamburguesa */
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.4);
@@ -340,4 +369,14 @@ footer {
 
 .oscuro .btn-inscribirse {
   background-color: #27ae60;
+}
+
+.oscuro .language-btn.active {
+  color: #111111;
+}
+
+@media (max-width: 768px) {
+  .language-switch {
+    margin: 10px 0;
+  }
 }

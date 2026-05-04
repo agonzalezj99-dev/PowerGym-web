@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useLanguage } from "../context/LanguageContext";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", contrasena: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,7 +29,7 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Error al iniciar sesión");
+        setError(data.error || t("login.loginError"));
         return;
       }
 
@@ -44,21 +46,21 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error);
-      setError("Error al conectar con el servidor");
+      setError(t("login.serverError"));
     }
   };
 
   return (
     <>
-      <Header subtitle="Bienvenido de nuevo a PowerGym" />
+      <Header subtitle={t("login.subtitle")} />
       <Navbar />
       <main className="container">
         <section id="login-form" style={{ gridColumn: "1 / -1", maxWidth: "400px", margin: "0 auto" }}>
-          <h2>🔐 Iniciar Sesión</h2>
+          <h2>{t("login.title")}</h2>
           {error && <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>}
           <div>
             <div className="form-group">
-              <label htmlFor="email">Correo Electrónico</label>
+              <label htmlFor="email">{t("login.email")}</label>
               <input
                 type="email"
                 id="email"
@@ -69,7 +71,7 @@ const Login = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="contrasena">Contraseña</label>
+              <label htmlFor="contrasena">{t("login.password")}</label>
               <input
                 type="password"
                 id="contrasena"
@@ -79,9 +81,9 @@ const Login = () => {
                 required
               />
             </div>
-            <button className="btn" onClick={handleSubmit}>Iniciar Sesión</button>
+            <button className="btn" onClick={handleSubmit}>{t("login.submit")}</button>
             <p style={{ marginTop: "15px" }}>
-              ¿No tienes cuenta? <a href="/registro">Regístrate aquí</a>
+              {t("login.noAccount")} <a href="/registro">{t("login.register")}</a>
             </p>
           </div>
         </section>

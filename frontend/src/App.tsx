@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { DarkModeProvider, useDarkMode } from "./context/DarkModeContext";
+import { LanguageProvider } from "./context/LanguageContext";
 import Inicio from "./pages/Inicio";
 import Horarios from "./pages/Horarios";
 import Registro from "./pages/Registro";
@@ -31,7 +32,9 @@ const AppContent = () => {
 const App = () => (
   <BrowserRouter>
     <DarkModeProvider>
-      <AppContent />
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
     </DarkModeProvider>
   </BrowserRouter>
 );

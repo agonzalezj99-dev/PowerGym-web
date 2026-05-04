@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useLanguage } from "../context/LanguageContext";
 
 interface Clase {
   id: number;
@@ -13,12 +14,21 @@ interface Clase {
   plazas_max: number;
 }
 
-const diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes"];
+const diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes"] as const;
+const dayKeyMap = {
+  lunes: "horarios.monday",
+  martes: "horarios.tuesday",
+  miercoles: "horarios.wednesday",
+  jueves: "horarios.thursday",
+  viernes: "horarios.friday",
+} as const;
 
 const Horarios = () => {
   const [clases, setClases] = useState<Clase[]>([]);
   const token = localStorage.getItem("token");
   const rol = localStorage.getItem("rol");
+  const { t } = useLanguage();
+  const diasLabel = diasSemana.map((dia) => t(dayKeyMap[dia]));
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/clases`)
@@ -36,7 +46,7 @@ const Horarios = () => {
 
   const handleInscribirse = async (clase_id: number) => {
     if (!token) {
-      alert("Debes iniciar sesión para inscribirte");
+      alert(t("horarios.loginRequired"));
       return;
     }
 
@@ -52,30 +62,28 @@ const Horarios = () => {
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.error || "Error al inscribirse");
+      alert(data.error || t("horarios.joinError"));
       return;
     }
 
-    alert("¡Inscripción realizada correctamente!");
+    alert(t("horarios.joinSuccess"));
   };
 
   return (
     <>
-      <Header subtitle="Consulta todos nuestros horarios de apertura y clases" />
+      <Header subtitle={t("horarios.subtitle")} />
       <Navbar />
       <main className="container">
         <div style={{ gridColumn: "1 / -1" }}>
           <section id="clases">
-            <h2>🏋️ Horario de Clases Dirigidas</h2>
+            <h2>{t("horarios.classesTitle")}</h2>
             <table>
               <thead>
                 <tr>
-                  <th>Clase</th>
-                  <th>Lunes</th>
-                  <th>Martes</th>
-                  <th>Miércoles</th>
-                  <th>Jueves</th>
-                  <th>Viernes</th>
+                  <th>{t("horarios.classCol")}</th>
+                  {diasLabel.map((diaLabel) => (
+                    <th key={diaLabel}>{diaLabel}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -93,9 +101,9 @@ const Horarios = () => {
                                 <button
                                   onClick={() => handleInscribirse(h.id)}
                                   className="btn-inscribirse"
-                                  title="Inscribirse a esta clase"
+                                  title={t("horarios.joinTooltip")}
                                 >
-                                  Apuntarme
+                                  {t("horarios.joinClass")}
                                 </button>
                               )}
                             </div>
@@ -110,11 +118,11 @@ const Horarios = () => {
           </section>
 
           <section id="apertura">
-            <h2>⏰ Horario de Apertura</h2>
+            <h2>{t("horarios.openingTitle")}</h2>
             <ul>
-              <li><strong>Lunes a Viernes:</strong> 6:00 a.m. - 23:00 p.m.</li>
-              <li><strong>Sábados:</strong> 8:00 a.m. - 20:00 p.m.</li>
-              <li><strong>Domingos y Festivos:</strong> Cerrado</li>
+              <li>{t("horarios.openWeek")}</li>
+              <li>{t("horarios.openSat")}</li>
+              <li>{t("horarios.openSun")}</li>
             </ul>
           </section>
         </div>

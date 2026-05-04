@@ -1,0 +1,347 @@
+import { createContext, useContext, useState, ReactNode } from "react";
+
+export type Language = "es" | "en" | "fr";
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+const translations: Record<Language, Record<string, string>> = {
+  es: {
+    "app.name": "PowerGym",
+    "header.greeting": "Hola, {name}",
+    "nav.home": "Inicio",
+    "nav.schedule": "Horarios",
+    "nav.contact": "Contacto",
+    "nav.enrollments": "Inscripciones",
+    "nav.language": "Idioma",
+    "common.login": "Iniciar sesion",
+    "common.register": "Registro",
+    "common.logout": "Cerrar sesion",
+    "footer.rights": "Todos los derechos reservados.",
+
+    "inicio.subtitle": "Tu mejor version comienza aqui",
+    "inicio.welcomeTitle": "Bienvenido a PowerGym",
+    "inicio.welcomeText": "Somos tu centro fitness de confianza. Te esperamos.",
+    "inicio.registerNow": "Registrate Ahora",
+    "inicio.servicesTitle": "Nuestros Servicios",
+    "inicio.pricesTitle": "Tarifas de Membresia",
+    "inicio.basicPlan": "Plan Basico: 30EUR/mes. Acceso a sala.",
+    "inicio.proPlan": "Plan Pro: 50EUR/mes. Acceso a sala + 4 clases/mes.",
+    "inicio.premiumPlan": "Plan Premium: 70EUR/mes. Acceso total.",
+    "inicio.service1.title": "Musculacion",
+    "inicio.service1.description": "Acceso ilimitado a nuestra sala de pesas y maquinas de ultima generacion.",
+    "inicio.service2.title": "Clases Dirigidas",
+    "inicio.service2.description": "Zumba, Yoga, Spinning y mas. Consulta el horario completo.",
+    "inicio.service3.title": "Entrenamiento Personal",
+    "inicio.service3.description": "Programas personalizados con nuestros entrenadores certificados.",
+
+    "horarios.subtitle": "Consulta todos nuestros horarios de apertura y clases",
+    "horarios.classesTitle": "Horario de Clases Dirigidas",
+    "horarios.openingTitle": "Horario de Apertura",
+    "horarios.classCol": "Clase",
+    "horarios.monday": "Lunes",
+    "horarios.tuesday": "Martes",
+    "horarios.wednesday": "Miercoles",
+    "horarios.thursday": "Jueves",
+    "horarios.friday": "Viernes",
+    "horarios.joinClass": "Apuntarme",
+    "horarios.joinTooltip": "Inscribirse a esta clase",
+    "horarios.loginRequired": "Debes iniciar sesion para inscribirte",
+    "horarios.joinError": "Error al inscribirse",
+    "horarios.joinSuccess": "Inscripcion realizada correctamente",
+    "horarios.openWeek": "Lunes a Viernes: 6:00 a.m. - 23:00 p.m.",
+    "horarios.openSat": "Sabados: 8:00 a.m. - 20:00 p.m.",
+    "horarios.openSun": "Domingos y Festivos: Cerrado",
+
+    "contact.subtitle": "Estamos aqui para ayudarte. Contacta con nosotros.",
+    "contact.findUs": "Encuentranos",
+    "contact.addressLabel": "Direccion:",
+    "contact.addressText": "Calle Pintores, N 15, 10003, Caceres.",
+    "contact.directInfo": "Informacion Directa",
+    "contact.phone": "Telefono:",
+    "contact.formTitle": "Formulario de Consulta",
+    "contact.name": "Tu Nombre",
+    "contact.email": "Correo Electronico",
+    "contact.message": "Mensaje",
+    "contact.submit": "Enviar Consulta",
+    "contact.sendError": "Error al enviar la consulta",
+    "contact.sendSuccess": "Consulta enviada con exito",
+    "contact.serverError": "Error al conectar con el servidor",
+
+    "inscripciones.subtitle": "Gestiona tus clases inscritas",
+    "inscripciones.title": "Mis Inscripciones",
+    "inscripciones.empty": "No tienes ninguna inscripcion activa.",
+    "inscripciones.classCol": "Clase",
+    "inscripciones.instructorCol": "Instructor",
+    "inscripciones.dayCol": "Dia",
+    "inscripciones.scheduleCol": "Horario",
+    "inscripciones.actionCol": "Accion",
+    "inscripciones.cancel": "Cancelar",
+    "inscripciones.canceled": "Inscripcion cancelada correctamente",
+
+    "login.subtitle": "Bienvenido de nuevo a PowerGym",
+    "login.title": "Iniciar Sesion",
+    "login.email": "Correo Electronico",
+    "login.password": "Contrasena",
+    "login.submit": "Iniciar Sesion",
+    "login.noAccount": "No tienes cuenta?",
+    "login.register": "Registrate aqui",
+    "login.loginError": "Error al iniciar sesion",
+    "login.serverError": "Error al conectar con el servidor",
+
+    "register.subtitle": "Comienza tu camino hacia una vida mas saludable",
+    "register.title": "Registro de Usuario",
+    "register.name": "Nombre Completo",
+    "register.email": "Correo Electronico",
+    "register.password": "Contrasena",
+    "register.birthDate": "Fecha de Nacimiento",
+    "register.membershipType": "Tipo de Membresia",
+    "register.create": "Crear Cuenta",
+    "register.hasAccount": "Ya tienes una cuenta?",
+    "register.login": "Inicia sesion aqui",
+    "register.registerError": "Error al registrarse",
+    "register.registerSuccess": "Cuenta creada con exito",
+    "register.serverError": "Error al conectar con el servidor",
+    "register.basic": "Basica",
+    "register.pro": "Pro",
+    "register.premium": "Premium",
+  },
+  en: {
+    "app.name": "PowerGym",
+    "header.greeting": "Hello, {name}",
+    "nav.home": "Home",
+    "nav.schedule": "Schedule",
+    "nav.contact": "Contact",
+    "nav.enrollments": "Enrollments",
+    "nav.language": "Language",
+    "common.login": "Sign in",
+    "common.register": "Register",
+    "common.logout": "Log out",
+    "footer.rights": "All rights reserved.",
+
+    "inicio.subtitle": "Your best version starts here",
+    "inicio.welcomeTitle": "Welcome to PowerGym",
+    "inicio.welcomeText": "We are your trusted fitness center. We are waiting for you.",
+    "inicio.registerNow": "Sign Up Now",
+    "inicio.servicesTitle": "Our Services",
+    "inicio.pricesTitle": "Membership Plans",
+    "inicio.basicPlan": "Basic Plan: EUR30/month. Gym floor access.",
+    "inicio.proPlan": "Pro Plan: EUR50/month. Gym floor access + 4 classes/month.",
+    "inicio.premiumPlan": "Premium Plan: EUR70/month. Full access.",
+    "inicio.service1.title": "Weight Training",
+    "inicio.service1.description": "Unlimited access to our weight room and latest-generation equipment.",
+    "inicio.service2.title": "Group Classes",
+    "inicio.service2.description": "Zumba, Yoga, Spinning and more. Check the full timetable.",
+    "inicio.service3.title": "Personal Training",
+    "inicio.service3.description": "Personalized programs with our certified trainers.",
+
+    "horarios.subtitle": "Check all our opening and class schedules",
+    "horarios.classesTitle": "Group Classes Schedule",
+    "horarios.openingTitle": "Opening Hours",
+    "horarios.classCol": "Class",
+    "horarios.monday": "Monday",
+    "horarios.tuesday": "Tuesday",
+    "horarios.wednesday": "Wednesday",
+    "horarios.thursday": "Thursday",
+    "horarios.friday": "Friday",
+    "horarios.joinClass": "Join",
+    "horarios.joinTooltip": "Join this class",
+    "horarios.loginRequired": "You must log in to enroll",
+    "horarios.joinError": "Could not enroll",
+    "horarios.joinSuccess": "Enrollment completed successfully",
+    "horarios.openWeek": "Monday to Friday: 6:00 a.m. - 11:00 p.m.",
+    "horarios.openSat": "Saturday: 8:00 a.m. - 8:00 p.m.",
+    "horarios.openSun": "Sunday and Holidays: Closed",
+
+    "contact.subtitle": "We are here to help you. Contact us.",
+    "contact.findUs": "Find Us",
+    "contact.addressLabel": "Address:",
+    "contact.addressText": "Calle Pintores, No. 15, 10003, Caceres.",
+    "contact.directInfo": "Direct Information",
+    "contact.phone": "Phone:",
+    "contact.formTitle": "Contact Form",
+    "contact.name": "Your Name",
+    "contact.email": "Email",
+    "contact.message": "Message",
+    "contact.submit": "Send Request",
+    "contact.sendError": "Error sending the request",
+    "contact.sendSuccess": "Request sent successfully",
+    "contact.serverError": "Error connecting to server",
+
+    "inscripciones.subtitle": "Manage your enrolled classes",
+    "inscripciones.title": "My Enrollments",
+    "inscripciones.empty": "You have no active enrollments.",
+    "inscripciones.classCol": "Class",
+    "inscripciones.instructorCol": "Instructor",
+    "inscripciones.dayCol": "Day",
+    "inscripciones.scheduleCol": "Schedule",
+    "inscripciones.actionCol": "Action",
+    "inscripciones.cancel": "Cancel",
+    "inscripciones.canceled": "Enrollment canceled successfully",
+
+    "login.subtitle": "Welcome back to PowerGym",
+    "login.title": "Sign In",
+    "login.email": "Email",
+    "login.password": "Password",
+    "login.submit": "Sign In",
+    "login.noAccount": "Don't have an account?",
+    "login.register": "Sign up here",
+    "login.loginError": "Error while signing in",
+    "login.serverError": "Error connecting to server",
+
+    "register.subtitle": "Start your path to a healthier life",
+    "register.title": "User Registration",
+    "register.name": "Full Name",
+    "register.email": "Email",
+    "register.password": "Password",
+    "register.birthDate": "Date of Birth",
+    "register.membershipType": "Membership Type",
+    "register.create": "Create Account",
+    "register.hasAccount": "Already have an account?",
+    "register.login": "Sign in here",
+    "register.registerError": "Error while registering",
+    "register.registerSuccess": "Account created successfully",
+    "register.serverError": "Error connecting to server",
+    "register.basic": "Basic",
+    "register.pro": "Pro",
+    "register.premium": "Premium",
+  },
+  fr: {
+    "app.name": "PowerGym",
+    "header.greeting": "Bonjour, {name}",
+    "nav.home": "Accueil",
+    "nav.schedule": "Horaires",
+    "nav.contact": "Contact",
+    "nav.enrollments": "Inscriptions",
+    "nav.language": "Langue",
+    "common.login": "Se connecter",
+    "common.register": "Inscription",
+    "common.logout": "Se deconnecter",
+    "footer.rights": "Tous droits reserves.",
+
+    "inicio.subtitle": "Votre meilleure version commence ici",
+    "inicio.welcomeTitle": "Bienvenue a PowerGym",
+    "inicio.welcomeText": "Nous sommes votre salle de sport de confiance. Nous vous attendons.",
+    "inicio.registerNow": "Inscrivez-vous",
+    "inicio.servicesTitle": "Nos Services",
+    "inicio.pricesTitle": "Tarifs d'abonnement",
+    "inicio.basicPlan": "Formule Basique: 30EUR/mois. Acces a la salle.",
+    "inicio.proPlan": "Formule Pro: 50EUR/mois. Acces a la salle + 4 cours/mois.",
+    "inicio.premiumPlan": "Formule Premium: 70EUR/mois. Acces complet.",
+    "inicio.service1.title": "Musculation",
+    "inicio.service1.description": "Acces illimite a la salle de musculation et aux machines de derniere generation.",
+    "inicio.service2.title": "Cours Collectifs",
+    "inicio.service2.description": "Zumba, Yoga, Spinning et plus encore. Consultez les horaires complets.",
+    "inicio.service3.title": "Coaching Personnel",
+    "inicio.service3.description": "Programmes personnalises avec nos coachs certifies.",
+
+    "horarios.subtitle": "Consultez tous nos horaires d'ouverture et de cours",
+    "horarios.classesTitle": "Horaires des Cours Collectifs",
+    "horarios.openingTitle": "Heures d'Ouverture",
+    "horarios.classCol": "Cours",
+    "horarios.monday": "Lundi",
+    "horarios.tuesday": "Mardi",
+    "horarios.wednesday": "Mercredi",
+    "horarios.thursday": "Jeudi",
+    "horarios.friday": "Vendredi",
+    "horarios.joinClass": "M'inscrire",
+    "horarios.joinTooltip": "S'inscrire a ce cours",
+    "horarios.loginRequired": "Vous devez vous connecter pour vous inscrire",
+    "horarios.joinError": "Erreur lors de l'inscription",
+    "horarios.joinSuccess": "Inscription realisee avec succes",
+    "horarios.openWeek": "Lundi a Vendredi: 6:00 - 23:00",
+    "horarios.openSat": "Samedi: 8:00 - 20:00",
+    "horarios.openSun": "Dimanches et jours feries: Ferme",
+
+    "contact.subtitle": "Nous sommes ici pour vous aider. Contactez-nous.",
+    "contact.findUs": "Retrouvez-nous",
+    "contact.addressLabel": "Adresse :",
+    "contact.addressText": "Calle Pintores, N 15, 10003, Caceres.",
+    "contact.directInfo": "Informations Directes",
+    "contact.phone": "Telephone :",
+    "contact.formTitle": "Formulaire de Contact",
+    "contact.name": "Votre Nom",
+    "contact.email": "Email",
+    "contact.message": "Message",
+    "contact.submit": "Envoyer",
+    "contact.sendError": "Erreur lors de l'envoi de la demande",
+    "contact.sendSuccess": "Demande envoyee avec succes",
+    "contact.serverError": "Erreur de connexion au serveur",
+
+    "inscripciones.subtitle": "Gerez vos cours inscrits",
+    "inscripciones.title": "Mes Inscriptions",
+    "inscripciones.empty": "Vous n'avez aucune inscription active.",
+    "inscripciones.classCol": "Cours",
+    "inscripciones.instructorCol": "Instructeur",
+    "inscripciones.dayCol": "Jour",
+    "inscripciones.scheduleCol": "Horaire",
+    "inscripciones.actionCol": "Action",
+    "inscripciones.cancel": "Annuler",
+    "inscripciones.canceled": "Inscription annulee avec succes",
+
+    "login.subtitle": "Bienvenue de nouveau chez PowerGym",
+    "login.title": "Se Connecter",
+    "login.email": "Email",
+    "login.password": "Mot de passe",
+    "login.submit": "Se Connecter",
+    "login.noAccount": "Vous n'avez pas de compte ?",
+    "login.register": "Inscrivez-vous ici",
+    "login.loginError": "Erreur de connexion",
+    "login.serverError": "Erreur de connexion au serveur",
+
+    "register.subtitle": "Commencez votre chemin vers une vie plus saine",
+    "register.title": "Inscription Utilisateur",
+    "register.name": "Nom Complet",
+    "register.email": "Email",
+    "register.password": "Mot de passe",
+    "register.birthDate": "Date de Naissance",
+    "register.membershipType": "Type d'Abonnement",
+    "register.create": "Creer un Compte",
+    "register.hasAccount": "Vous avez deja un compte ?",
+    "register.login": "Connectez-vous ici",
+    "register.registerError": "Erreur lors de l'inscription",
+    "register.registerSuccess": "Compte cree avec succes",
+    "register.serverError": "Erreur de connexion au serveur",
+    "register.basic": "Basique",
+    "register.pro": "Pro",
+    "register.premium": "Premium",
+  },
+};
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>(() => {
+    const savedLanguage = localStorage.getItem("language");
+    if (savedLanguage === "es" || savedLanguage === "en" || savedLanguage === "fr") {
+      return savedLanguage;
+    }
+    return "es";
+  });
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem("language", lang);
+  };
+
+  const t = (key: string): string => {
+    return translations[language][key] || translations.es[key] || key;
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error("useLanguage must be used within a LanguageProvider");
+  }
+  return context;
+}
