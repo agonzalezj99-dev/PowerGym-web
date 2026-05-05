@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { crearNotificacion } = require("./notificaciones_controller");
 
 // VER MIS INSCRIPCIONES
 const getMisInscripciones = async (req, res) => {
@@ -22,11 +23,12 @@ const inscribirse = async (req, res) => {
   const { clase_id } = req.body;
   try {
     const clases = await db.query(
-      `SELECT c.plazas_max, COUNT(i.id) as inscritos
+      `SELECT c.plazas_max, c.nombre, c.instructor, c.dia_semana, c.hora_inicio, c.hora_fin,
+              COUNT(i.id) as inscritos
        FROM clases c
        LEFT JOIN inscripciones i ON c.id = i.clase_id
        WHERE c.id = $1
-       GROUP BY c.id`,
+       GROUP BY c.id, c.nombre, c.instructor, c.dia_semana, c.hora_inicio, c.hora_fin`,
       [clase_id]
     );
 
@@ -41,6 +43,14 @@ const inscribirse = async (req, res) => {
     await db.query(
       "INSERT INTO inscripciones (usuario_id, clase_id) VALUES ($1, $2)",
       [req.usuario.id, clase_id]
+    );
+
+    const clase = clases.rows[0];
+
+    await crearNotificacion(
+      req.usuario.id,
+      `Inscripción confirmada: ${clase.nombre}`,
+      `Te has inscrito a ${clase.nombre} con ${clase.instructor} el ${clase.dia_semana} de ${clase.hora_inicio.slice(0, 5)} a ${clase.hora_fin.slice(0, 5)}.`
     );
 
     res.status(201).json({ mensaje: "Inscripción realizada correctamente" });

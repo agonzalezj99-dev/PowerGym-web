@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 export type Language = "es" | "en" | "fr";
 
@@ -18,10 +18,15 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.schedule": "Horarios",
     "nav.contact": "Contacto",
     "nav.enrollments": "Inscripciones",
+    "nav.routines": "Rutinas IA",
+    "nav.notifications": "Notificaciones",
     "nav.language": "Idioma",
+    "nav.viewSchedule": "Ver horarios",
+    "nav.choosePlan": "Elegir plan",
     "common.login": "Iniciar sesion",
     "common.register": "Registro",
     "common.logout": "Cerrar sesion",
+    "common.guest": "Invitado",
     "footer.rights": "Todos los derechos reservados.",
 
     "inicio.subtitle": "Tu mejor version comienza aqui",
@@ -110,6 +115,66 @@ const translations: Record<Language, Record<string, string>> = {
     "register.basic": "Basica",
     "register.pro": "Pro",
     "register.premium": "Premium",
+    
+    "footer.description": "Tu gimnasio de confianza en Caceres. Mas de 15 anos ayudando a mejorar tu salud.",
+    "footer.links": "Enlaces",
+    "footer.contact": "Contacto",
+    "footer.contactAddress": "Calle Pintores, N 15, 10003, Caceres",
+    "footer.contactPhone": "927 555 12 34",
+    "footer.contactEmail": "info@powergym.com",
+    "footer.schedule": "Horario",
+    "footer.scheduleWeek": "Lun-Vie: 6:00 - 23:00",
+    "footer.scheduleSat": "Sabados: 8:00 - 20:00",
+    "footer.scheduleSun": "Domingos: Cerrado",
+    "footer.copyright": "2025 PowerGym",
+    "footer.admin": "Panel de Administracion",
+    "footer.adminAccess": "Acceso restringido a administradores",
+    
+    "stats.members": "Socios",
+    "stats.instructors": "Monitores",
+    "stats.classesPerWeek": "Clases/semana",
+    "stats.yearsExperience": "Anos de experiencia",
+    
+    "planes.basicPrice": "29EUR/mes",
+    "planes.proPrice": "49EUR/mes",
+    "planes.premiumPrice": "79EUR/mes",
+    "planes.basicFeature1": "Acceso sala fitness",
+    "planes.basicFeature2": "Vestuarios",
+    "planes.basicFeature3": "1 clase dirigida/semana",
+    "planes.proFeature1": "Acceso sala fitness",
+    "planes.proFeature2": "Vestuarios",
+    "planes.proFeature3": "Clases ilimitadas",
+    "planes.proFeature4": "Zona spa",
+    "planes.premiumFeature1": "Todo lo de Pro",
+    "planes.premiumFeature2": "Entrenador personal",
+    "planes.premiumFeature3": "Nutricionista",
+    "planes.premiumFeature4": "Acceso 24h",
+    
+    "rutinas.subtitle": "Genera tu rutina personalizada con IA",
+    "rutinas.title": "Generador de Rutinas con IA",
+    "rutinas.description": "Rellena el formulario y nuestra IA te generará una rutina personalizada según tus objetivos.",
+    "rutinas.label.objetivo": "Objetivo",
+    "rutinas.option.perderPeso": "Perder peso",
+    "rutinas.option.ganarMusculo": "Ganar músculo",
+    "rutinas.option.mejorarResistencia": "Mejorar resistencia",
+    "rutinas.option.tonificar": "Tonificar",
+    "rutinas.option.mantenerse": "Mantenerse en forma",
+    "rutinas.label.nivel": "Nivel",
+    "rutinas.level.principiante": "Principiante",
+    "rutinas.level.intermedio": "Intermedio",
+    "rutinas.level.avanzado": "Avanzado",
+    "rutinas.label.dias": "Días disponibles por semana",
+    "rutinas.days.2": "2 días",
+    "rutinas.days.3": "3 días",
+    "rutinas.days.4": "4 días",
+    "rutinas.days.5": "5 días",
+    "rutinas.days.6": "6 días",
+    "rutinas.label.restricciones": "Restricciones o lesiones (opcional)",
+    "rutinas.placeholder.restricciones": "Ej: lesión de rodilla, problemas de espalda...",
+    "rutinas.generating": "Generando tu rutina personalizada...",
+    "rutinas.generate": "Generar Rutina",
+    "rutinas.resultTitle": "Tu rutina personalizada",
+    "rutinas.empty": "Tu rutina aparecerá aquí",
   },
   en: {
     "app.name": "PowerGym",
@@ -118,10 +183,15 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.schedule": "Schedule",
     "nav.contact": "Contact",
     "nav.enrollments": "Enrollments",
+    "nav.routines": "AI Routines",
+    "nav.notifications": "Notifications",
     "nav.language": "Language",
+    "nav.viewSchedule": "View Schedule",
+    "nav.choosePlan": "Choose Plan",
     "common.login": "Sign in",
     "common.register": "Register",
     "common.logout": "Log out",
+    "common.guest": "Guest",
     "footer.rights": "All rights reserved.",
 
     "inicio.subtitle": "Your best version starts here",
@@ -210,6 +280,66 @@ const translations: Record<Language, Record<string, string>> = {
     "register.basic": "Basic",
     "register.pro": "Pro",
     "register.premium": "Premium",
+    
+    "footer.description": "Your trusted gym in Caceres. Over 15 years helping you improve your health.",
+    "footer.links": "Links",
+    "footer.contact": "Contact",
+    "footer.contactAddress": "Calle Pintores, No. 15, 10003, Caceres",
+    "footer.contactPhone": "927 555 12 34",
+    "footer.contactEmail": "info@powergym.com",
+    "footer.schedule": "Schedule",
+    "footer.scheduleWeek": "Mon-Fri: 6:00 - 23:00",
+    "footer.scheduleSat": "Saturday: 8:00 - 20:00",
+    "footer.scheduleSun": "Sunday: Closed",
+    "footer.copyright": "2025 PowerGym",
+    "footer.admin": "Administration Panel",
+    "footer.adminAccess": "Restricted access for administrators",
+    
+    "stats.members": "Members",
+    "stats.instructors": "Instructors",
+    "stats.classesPerWeek": "Classes/week",
+    "stats.yearsExperience": "Years of experience",
+    
+    "planes.basicPrice": "EUR 29/month",
+    "planes.proPrice": "EUR 49/month",
+    "planes.premiumPrice": "EUR 79/month",
+    "planes.basicFeature1": "Gym floor access",
+    "planes.basicFeature2": "Changing rooms",
+    "planes.basicFeature3": "1 guided class/week",
+    "planes.proFeature1": "Gym floor access",
+    "planes.proFeature2": "Changing rooms",
+    "planes.proFeature3": "Unlimited classes",
+    "planes.proFeature4": "Spa area",
+    "planes.premiumFeature1": "Everything in Pro",
+    "planes.premiumFeature2": "Personal trainer",
+    "planes.premiumFeature3": "Nutritionist",
+    "planes.premiumFeature4": "24/7 access",
+    
+    "rutinas.subtitle": "Generate your personalized routine with AI",
+    "rutinas.title": "AI Routine Generator",
+    "rutinas.description": "Fill the form and our AI will generate a personalized routine based on your goals.",
+    "rutinas.label.objetivo": "Goal",
+    "rutinas.option.perderPeso": "Lose weight",
+    "rutinas.option.ganarMusculo": "Gain muscle",
+    "rutinas.option.mejorarResistencia": "Improve endurance",
+    "rutinas.option.tonificar": "Tone",
+    "rutinas.option.mantenerse": "Stay fit",
+    "rutinas.label.nivel": "Level",
+    "rutinas.level.principiante": "Beginner",
+    "rutinas.level.intermedio": "Intermediate",
+    "rutinas.level.avanzado": "Advanced",
+    "rutinas.label.dias": "Days available per week",
+    "rutinas.days.2": "2 days",
+    "rutinas.days.3": "3 days",
+    "rutinas.days.4": "4 days",
+    "rutinas.days.5": "5 days",
+    "rutinas.days.6": "6 days",
+    "rutinas.label.restricciones": "Restrictions or injuries (optional)",
+    "rutinas.placeholder.restricciones": "E.g.: knee injury, back problems...",
+    "rutinas.generating": "Generating your personalized routine...",
+    "rutinas.generate": "Generate Routine",
+    "rutinas.resultTitle": "Your personalized routine",
+    "rutinas.empty": "Your routine will appear here",
   },
   fr: {
     "app.name": "PowerGym",
@@ -218,10 +348,15 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.schedule": "Horaires",
     "nav.contact": "Contact",
     "nav.enrollments": "Inscriptions",
+    "nav.routines": "Routines IA",
+    "nav.notifications": "Notifications",
     "nav.language": "Langue",
+    "nav.viewSchedule": "Voir les horaires",
+    "nav.choosePlan": "Choisir un plan",
     "common.login": "Se connecter",
     "common.register": "Inscription",
     "common.logout": "Se deconnecter",
+    "common.guest": "Invite",
     "footer.rights": "Tous droits reserves.",
 
     "inicio.subtitle": "Votre meilleure version commence ici",
@@ -310,14 +445,80 @@ const translations: Record<Language, Record<string, string>> = {
     "register.basic": "Basique",
     "register.pro": "Pro",
     "register.premium": "Premium",
+    
+    "footer.description": "Votre salle de sport de confiance a Caceres. Plus de 15 ans pour vous aider a ameliorer votre sante.",
+    "footer.links": "Liens",
+    "footer.contact": "Contact",
+    
+    "planes.basicPrice": "29EUR/mois",
+    "planes.proPrice": "49EUR/mois",
+    "planes.premiumPrice": "79EUR/mois",
+    "planes.basicFeature1": "Acces a la salle",
+    "planes.basicFeature2": "Vestiaires",
+    "planes.basicFeature3": "1 cours collectif/semaine",
+    "planes.proFeature1": "Acces a la salle",
+    "planes.proFeature2": "Vestiaires",
+    "planes.proFeature3": "Cours illimites",
+    "planes.proFeature4": "Zone spa",
+    "planes.premiumFeature1": "Tout ce qui est en Pro",
+    "planes.premiumFeature2": "Coach personnel",
+    "planes.premiumFeature3": "Nutritionniste",
+    "planes.premiumFeature4": "Acces 24h/24",
+    
+    "rutinas.subtitle": "Générez votre routine personnalisée avec l'IA",
+    "rutinas.title": "Générateur de Routines IA",
+    "rutinas.description": "Remplissez le formulaire et notre IA générera une routine personnalisée selon vos objectifs.",
+    "rutinas.label.objetivo": "Objectif",
+    "rutinas.option.perderPeso": "Perdre du poids",
+    "rutinas.option.ganarMusculo": "Prendre du muscle",
+    "rutinas.option.mejorarResistencia": "Améliorer l'endurance",
+    "rutinas.option.tonificar": "Tonifier",
+    "rutinas.option.mantenerse": "Rester en forme",
+    "rutinas.label.nivel": "Niveau",
+    "rutinas.level.principiante": "Débutant",
+    "rutinas.level.intermedio": "Intermédiaire",
+    "rutinas.level.avanzado": "Avancé",
+    "rutinas.label.dias": "Jours disponibles par semaine",
+    "rutinas.days.2": "2 jours",
+    "rutinas.days.3": "3 jours",
+    "rutinas.days.4": "4 jours",
+    "rutinas.days.5": "5 jours",
+    "rutinas.days.6": "6 jours",
+    "rutinas.label.restricciones": "Restrictions ou blessures (optionnel)",
+    "rutinas.placeholder.restricciones": "Ex: blessure au genou, problèmes de dos...",
+    "rutinas.generating": "Génération de votre routine personnalisée...",
+    "rutinas.generate": "Générer la routine",
+    "rutinas.resultTitle": "Votre routine personnalisée",
+    "rutinas.empty": "Votre routine s'affichera ici",
+    "footer.contactAddress": "Calle Pintores, N 15, 10003, Caceres",
+    "footer.contactPhone": "927 555 12 34",
+    "footer.contactEmail": "info@powergym.com",
+    "footer.schedule": "Horaires",
+    "footer.scheduleWeek": "Lun-Ven: 6:00 - 23:00",
+    "footer.scheduleSat": "Samedi: 8:00 - 20:00",
+    "footer.scheduleSun": "Dimanche: Ferme",
+    "footer.copyright": "2025 PowerGym",
+    "footer.admin": "Panneau d'Administration",
+    "footer.adminAccess": "Acces reserve aux administrateurs",
+    
+    "stats.members": "Membres",
+    "stats.instructors": "Instructeurs",
+    "stats.classesPerWeek": "Cours/semaine",
+    "stats.yearsExperience": "Annees d'experience",
   },
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
+    // Cargar idioma guardado del localStorage
     const savedLanguage = localStorage.getItem("language");
     if (savedLanguage === "es" || savedLanguage === "en" || savedLanguage === "fr") {
       return savedLanguage;
+    }
+    // Fallback al idioma del navegador si es soportado
+    const browserLang = navigator.language.split("-")[0];
+    if (browserLang === "es" || browserLang === "en" || browserLang === "fr") {
+      return browserLang as Language;
     }
     return "es";
   });
@@ -325,7 +526,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem("language", lang);
+    // Actualizar el atributo lang del documento para accesibilidad
+    document.documentElement.lang = lang;
   };
+
+  // Establecer el idioma inicial en el documento
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, []);
 
   const t = (key: string): string => {
     return translations[language][key] || translations.es[key] || key;

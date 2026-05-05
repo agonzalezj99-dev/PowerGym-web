@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
+import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
+import FooterAdmin from "../components/FooterAdmin";
+
 
 interface Usuario {
   nombre: string;
@@ -75,7 +78,7 @@ const Perfil = () => {
   return (
     <>
       <Header subtitle="Tu perfil de PowerGym" />
-      <Navbar />
+      {usuario.rol === "admin" ? <NavbarAdmin /> : <Navbar />}
       <main className="container">
         <section style={{ gridColumn: "1 / -1" }}>
           <div className="perfil-header">
@@ -85,9 +88,11 @@ const Perfil = () => {
             <div>
               <h2>{usuario.nombre}</h2>
               <p>{usuario.email}</p>
-              <span className={`perfil-membresia perfil-membresia-${usuario.membresia}`}>
-                {usuario.membresia?.toUpperCase() || "BÁSICA"}
-              </span>
+              {usuario.rol !== "admin" && (
+                <span className={`perfil-membresia perfil-membresia-${usuario.membresia}`}>
+                  {usuario.membresia?.toUpperCase() || "BÁSICA"}
+                </span>
+              )}
             </div>
           </div>
 
@@ -107,10 +112,12 @@ const Perfil = () => {
                 <span className="perfil-dato-label">Fecha de nacimiento</span>
                 <span>{usuario.fecha_nacimiento?.slice(0, 10)}</span>
               </div>
-              <div className="perfil-dato">
-                <span className="perfil-dato-label">Membresía</span>
-                <span>{usuario.membresia || "Básica"}</span>
-              </div>
+              {usuario.rol !== "admin" && (
+                <div className="perfil-dato">
+                  <span className="perfil-dato-label">Membresía</span>
+                  <span>{usuario.membresia || "Básica"}</span>
+                </div>
+              )}
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Miembro desde</span>
                 <span>{new Date(usuario.fecha_registro).toLocaleDateString()}</span>
@@ -128,12 +135,16 @@ const Perfil = () => {
                 <input type="date" name="fecha_nacimiento" value={form.fecha_nacimiento} onChange={handleChange} />
               </div>
               <div className="form-group">
-                <label>Membresía</label>
-                <select name="membresia" value={form.membresia} onChange={handleChange}>
-                  <option value="basica">Básica - 29€/mes</option>
-                  <option value="pro">Pro - 49€/mes</option>
-                  <option value="premium">Premium - 79€/mes</option>
-                </select>
+                {usuario.rol !== "admin" && (
+                  <div className="form-group">
+                    <label>Membresía</label>
+                    <select name="membresia" value={form.membresia} onChange={handleChange}>
+                      <option value="basica">Básica - 29€/mes</option>
+                      <option value="pro">Pro - 49€/mes</option>
+                      <option value="premium">Premium - 79€/mes</option>
+                    </select>
+                  </div>
+                )}
               </div>
               <div className="form-group">
                 <label>Nueva contraseña (dejar vacío para no cambiar)</label>
@@ -147,7 +158,7 @@ const Perfil = () => {
           )}
         </section>
       </main>
-      <Footer />
+      {usuario.rol === "admin" ? <FooterAdmin /> : <Footer />}
     </>
   );
 };

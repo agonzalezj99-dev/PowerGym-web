@@ -11,16 +11,16 @@ const services = [
 ] as const;
 
 const planes = [
-  { key: "inicio.basicPlan", nombre: "Básica", precio: "29€/mes", color: "#2ecc71", features: ["Acceso sala fitness", "Vestuarios", "1 clase dirigida/semana"] },
-  { key: "inicio.proPlan", nombre: "Pro", precio: "49€/mes", color: "#f39c12", features: ["Acceso sala fitness", "Vestuarios", "Clases ilimitadas", "Zona spa"] },
-  { key: "inicio.premiumPlan", nombre: "Premium", precio: "79€/mes", color: "#2c3e50", features: ["Todo lo de Pro", "Entrenador personal", "Nutricionista", "Acceso 24h"] },
+  { key: "inicio.basicPlan", nombreKey: "registro.basic", precioKey: "planes.basicPrice", color: "#2ecc71", featuresKeys: ["planes.basicFeature1", "planes.basicFeature2", "planes.basicFeature3"] },
+  { key: "inicio.proPlan", nombreKey: "registro.pro", precioKey: "planes.proPrice", color: "#f39c12", featuresKeys: ["planes.proFeature1", "planes.proFeature2", "planes.proFeature3", "planes.proFeature4"] },
+  { key: "inicio.premiumPlan", nombreKey: "registro.premium", precioKey: "planes.premiumPrice", color: "#2c3e50", featuresKeys: ["planes.premiumFeature1", "planes.premiumFeature2", "planes.premiumFeature3", "planes.premiumFeature4"] },
 ] as const;
 
 const stats = [
-  { numero: "500+", label: "Socios" },
-  { numero: "10+", label: "Monitores" },
-  { numero: "20+", label: "Clases/semana" },
-  { numero: "15", label: "Años de experiencia" },
+  { numero: "500+", labelKey: "stats.members" },
+  { numero: "10+", labelKey: "stats.instructors" },
+  { numero: "20+", labelKey: "stats.classesPerWeek" },
+  { numero: "15", labelKey: "stats.yearsExperience" },
 ];
 
 const Inicio = () => {
@@ -39,7 +39,7 @@ const Inicio = () => {
             <p>{t("inicio.welcomeText")}</p>
             <div className="hero-buttons">
               <Link to="/registro" className="btn">{t("inicio.registerNow")}</Link>
-              <Link to="/horarios" className="btn btn-outline">Ver horarios</Link>
+              <Link to="/horarios" className="btn btn-outline">{t("nav.viewSchedule")}</Link>
             </div>
           </div>
         </section>
@@ -48,9 +48,9 @@ const Inicio = () => {
         <section className="stats-section">
           <div className="stats-grid">
             {stats.map((s) => (
-              <div key={s.label} className="stat-item">
+              <div key={s.labelKey} className="stat-item">
                 <span className="stat-numero">{s.numero}</span>
-                <span className="stat-label">{s.label}</span>
+                <span className="stat-label">{t(s.labelKey)}</span>
               </div>
             ))}
           </div>
@@ -78,14 +78,14 @@ const Inicio = () => {
             <div className="planes-grid">
               {planes.map((p) => (
                 <div key={p.key} className="plan-card" style={{ borderTop: `4px solid ${p.color}` }}>
-                  <h3 style={{ color: p.color }}>{p.nombre}</h3>
-                  <p className="plan-precio">{p.precio}</p>
+                  <h3 style={{ color: p.color }}>{t(p.nombreKey)}</h3>
+                  <p className="plan-precio">{t(p.precioKey)}</p>
                   <ul className="plan-features">
-                    {p.features.map((f) => (
-                      <li key={f}>✓ {f}</li>
+                    {p.featuresKeys.map((f) => (
+                      <li key={f}>✓ {t(f)}</li>
                     ))}
                   </ul>
-                  <Link to="/registro" className="btn" style={{ backgroundColor: p.color }}>Elegir plan</Link>
+                  <Link to="/registro" className="btn" style={{ backgroundColor: p.color }}>{t("nav.choosePlan")}</Link>
                 </div>
               ))}
             </div>

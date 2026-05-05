@@ -11,6 +11,11 @@ import AdminInscripciones from "./pages/AdminInscripciones";
 import Login from "./pages/Login";
 import Perfil from "./pages/Perfil";
 import "./index.css";
+import Notificaciones from "./pages/Notificaciones";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminUsuarios from "./pages/AdminUsuarios";
+import AdminConsultas from "./pages/AdminConsultas";
+import Rutinas from "./pages/Rutinas";
 
 const AppContent = () => {
   const { isDark } = useDarkMode();
@@ -22,10 +27,15 @@ const AppContent = () => {
         <Route path="/registro" element={<Registro />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/inscripciones" element={<Inscripciones />} />
-        <Route path="/adminClases" element={<AdminClases />} />
-        <Route path="/adminInscripciones" element={<AdminInscripciones />} />
         <Route path="/login" element={<Login />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/notificaciones" element={<Notificaciones />} />
+        <Route path="/rutinas" element={<Rutinas />} />
+        <Route path="/admin" element={<AdminClases />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+        <Route path="/admin/inscripciones" element={<AdminInscripciones />} />
+        <Route path="/admin/consultas" element={<AdminConsultas />} />
       </Routes>
     </div>
   );

@@ -1,28 +1,23 @@
 const db = require("../config/db");
-const { Resend } = require("resend");
+const { crearNotificacion } = require("./notificaciones_controller");
 
 const enviarConsulta = async (req, res) => {
   const { nombre, email, mensaje } = req.body;
 
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
     await db.query(
       "INSERT INTO consultas (nombre, email, mensaje) VALUES ($1, $2, $3)",
       [nombre, email, mensaje]
     );
 
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: process.env.EMAIL_DESTINO,
-      subject: `Nueva consulta de ${nombre}`,
-      html: `
-        <h2>Nueva consulta - PowerGym</h2>
-        <p><b>Nombre:</b> ${nombre}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Mensaje:</b> ${mensaje}</p>
-      `
-    });
+    const admin = await db.query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
+    if (admin.rows.length > 0) {
+      await crearNotificacion(
+        admin.rows[0].id,
+        "Nueva consulta",
+        `${nombre} (${email}) ha enviado una consulta: "${mensaje.slice(0, 80)}..."`
+      );
+    }
 
     res.json({ mensaje: "Consulta enviada correctamente" });
   } catch (error) {

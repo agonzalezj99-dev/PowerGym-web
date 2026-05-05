@@ -1,16 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const NavbarAdmin = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("rol");
-    localStorage.removeItem("nombre");
-    navigate("/");
-  };
-
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid justify-content-center">
@@ -26,10 +16,19 @@ const NavbarAdmin = () => {
         <div className="collapse navbar-collapse justify-content-center" id="menuAdmin">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/adminClases">Gestión Clases</NavLink>
+              <NavLink className="nav-link" to="/admin/dashboard">Dashboard</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/adminInscripciones">Inscripciones</NavLink>
+              <NavLink className="nav-link" to="/admin" end>Gestión Clases</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/admin/usuarios">Usuarios</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/admin/inscripciones">Inscripciones</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/admin/consultas">Consultas</NavLink>
             </li>
           </ul>
         </div>

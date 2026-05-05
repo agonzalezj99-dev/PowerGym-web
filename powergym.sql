@@ -68,6 +68,19 @@ CREATE TABLE consultas (
     mensaje TEXT         NOT NULL,
     fecha   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ------------------------------------------------------------
+-- 5. NOTIFICACIONES
+-- ------------------------------------------------------------
+CREATE TABLE notificaciones (
+  id          SERIAL PRIMARY KEY,
+  usuario_id  INT NOT NULL,
+  titulo      VARCHAR(200) NOT NULL,
+  mensaje     TEXT NOT NULL,
+  leida       BOOLEAN NOT NULL DEFAULT false,
+  fecha       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_notif_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+)
  
 -- ============================================================
 --  FIN DEL SCRIPT

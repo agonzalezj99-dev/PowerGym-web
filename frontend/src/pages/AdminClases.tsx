@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import NavbarAdmin from "../components/NavbarAdmin";
-import Footer from "../components/Footer";
+import FooterAdmin from "../components/FooterAdmin";
 
 interface Clase {
   id: number;
@@ -176,7 +176,7 @@ const Admin = () => {
           </section>
         </div>
       </main>
-      <Footer />
+      <FooterAdmin />
     </>
   );
 };
