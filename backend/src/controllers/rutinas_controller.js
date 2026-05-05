@@ -1,41 +1,50 @@
-const fetch = require("node-fetch");
-
 const generarRutina = async (req, res) => {
   const { objetivo, nivel, dias, restricciones } = req.body;
 
-  const prompt = `
-Eres un entrenador personal.
-Crea una rutina con:
-Objetivo: ${objetivo}
-Nivel: ${nivel}
-Días: ${dias}
-Restricciones: ${restricciones || "ninguna"}
-Incluye ejercicios, series y reps.
-`;
-
   try {
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct",
+      "https://router.huggingface.co/v1/chat/completions",
       {
         method: "POST",
         headers: {
           Authorization: `Bearer ${process.env.HF_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ inputs: prompt }),
+        body: JSON.stringify({
+          model: "HuggingFaceH4/zephyr-7b-beta",
+          messages: [
+            {
+              role: "user",
+              content: `
+Eres un entrenador personal.
+
+Crea una rutina de gimnasio:
+
+Objetivo: ${objetivo}
+Nivel: ${nivel}
+Días por semana: ${dias}
+Restricciones: ${restricciones || "ninguna"}
+
+Divide por días con ejercicios, series y repeticiones.
+              `,
+            },
+          ],
+        }),
       }
     );
 
     const data = await response.json();
 
-    const texto =
-      data?.[0]?.generated_text || "No se pudo generar la rutina";
+    if (!response.ok) {
+      return res.status(500).json({ error: data });
+    }
 
-    res.json({ texto });
+    const texto = data?.choices?.[0]?.message?.content;
+
+    return res.json({ texto });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error IA" });
+    return res.status(500).json({ error: error.message });
   }
 };
 

@@ -29,13 +29,14 @@ const Rutinas = () => {
     setRutina("");
 
     try {
-      const response = await fetch("/api/rutinas", {
+      const response = await fetch("http://localhost:3000/api/rutinas", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(form),
-      });
+    });
 
       const data = await response.json();
       setRutina(data.texto || "No se pudo generar la rutina");
