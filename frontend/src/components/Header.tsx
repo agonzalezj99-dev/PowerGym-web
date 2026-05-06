@@ -5,6 +5,7 @@ import { useLanguage, type Language } from "../context/LanguageContext";
 
 interface HeaderProps {
   subtitle: string;
+  hideLanguage?: boolean;
 }
 
 const supportedLanguages: Language[] = ["es", "en", "fr"];
@@ -42,14 +43,13 @@ const codeLabels: Record<Language, string> = {
   fr: "FR",
 };
 
-const Header = ({ subtitle }: HeaderProps) => {
+const Header = ({ subtitle, hideLanguage = false }: HeaderProps) => {
   const { isDark, toggleDark } = useDarkMode();
   const navigate = useNavigate();
   const { t, language, setLanguage } = useLanguage();
 
   const token = localStorage.getItem("token");
   const nombre = localStorage.getItem("nombre");
-  const rol = localStorage.getItem("rol");
 
   const currentLanguage = (supportedLanguages.includes(language) ? language : "es") as Language;
 
@@ -68,22 +68,24 @@ const Header = ({ subtitle }: HeaderProps) => {
             {isDark ? "light_mode" : "dark_mode"}
           </span>
         </button>
-        <div className="language-switch">
-          {supportedLanguages.map((lang) => (
-            <button
-              key={lang}
-              type="button"
-              className={`language-btn ${currentLanguage === lang ? "active" : ""}`}
-              onClick={() => setLanguage(lang)}
-              title={lang === "es" ? "Español" : lang === "en" ? "English" : "Français"}
-            >
-              <span className="flag-wrap">
-                <span className="lang-code">{codeLabels[lang]}</span>
-                {languageIcons[lang]}
-              </span>
-            </button>
-          ))}
-        </div>
+        {!hideLanguage && (
+          <div className="language-switch">
+            {supportedLanguages.map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                className={`language-btn ${currentLanguage === lang ? "active" : ""}`}
+                onClick={() => setLanguage(lang)}
+                title={lang === "es" ? "Español" : lang === "en" ? "English" : "Français"}
+              >
+                <span className="flag-wrap">
+                  <span className="lang-code">{codeLabels[lang]}</span>
+                  {languageIcons[lang]}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="header-center">
@@ -94,16 +96,7 @@ const Header = ({ subtitle }: HeaderProps) => {
       <div className="header-right">
         {token ? (
           <>
-            {rol !== "admin" && (
-              <NavLink to="/notificaciones" className="header-btn header-notif">
-                🔔
-              </NavLink>
-            )}
-            {rol === "admin" && (
-              <NavLink to="/notificaciones" className="header-btn header-notif">
-                🔔
-              </NavLink>
-            )}
+            <NavLink to="/notificaciones" className="header-btn header-notif">🔔</NavLink>
             <NavLink to="/perfil" className="header-nombre">
               👤 {nombre || t("common.guest")}
             </NavLink>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
-import NavbarAdmin from "../components/NavbarAdmin"
+import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 import FooterAdmin from "../components/FooterAdmin";
 
@@ -16,6 +16,7 @@ interface Notificacion {
 
 const Notificaciones = () => {
   const [notificaciones, setNotificaciones] = useState<Notificacion[]>([]);
+  const [cargando, setCargando] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const rol = localStorage.getItem("rol");
@@ -26,10 +27,14 @@ const Notificaciones = () => {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
-      .then((data) => setNotificaciones(data));
+      .then((data) => {
+        setNotificaciones(Array.isArray(data) ? data : []);
+        setCargando(false);
+      })
+      .catch(() => setCargando(false));
   }, []);
 
-  const marcarLeida = async (id: number) => {
+  const marcarLeida = async (id: number, mensaje: string) => {
     await fetch(`${import.meta.env.VITE_API_URL}/api/notificaciones/${id}/leer`, {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
@@ -37,6 +42,8 @@ const Notificaciones = () => {
     setNotificaciones(notificaciones.map((n) =>
       n.id === id ? { ...n, leida: true } : n
     ));
+    const partes = mensaje.split("|");
+    if (partes[1]) navigate(partes[1]);
   };
 
   const marcarTodas = async () => {
@@ -49,9 +56,11 @@ const Notificaciones = () => {
 
   const noLeidas = notificaciones.filter((n) => !n.leida).length;
 
+  if (cargando) return <p style={{ textAlign: "center", padding: "40px" }}>Cargando...</p>;
+
   return (
     <>
-      <Header subtitle="Tus notificaciones" />
+      <Header subtitle="Tus notificaciones" hideLanguage={rol === "admin"} />
       {rol === "admin" ? <NavbarAdmin /> : <Navbar />}
       <main className="container">
         <section style={{ gridColumn: "1 / -1" }}>
@@ -74,22 +83,39 @@ const Notificaciones = () => {
             </div>
           ) : (
             <div className="notif-lista">
-              {notificaciones.map((n) => (
-                <div key={n.id} className={`notif-item ${!n.leida ? "notif-no-leida" : ""}`}>
-                  <div className="notif-content">
-                    <h3>{n.titulo}</h3>
-                    <p>{n.mensaje}</p>
-                    <span className="notif-fecha">
-                      {new Date(n.fecha).toLocaleDateString()} {new Date(n.fecha).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                    </span>
+              {notificaciones.map((n) => {
+                const partes = n.mensaje.split("|");
+                const textoMensaje = partes[0];
+                const enlace = partes[1];
+
+                return (
+                  <div
+                    key={n.id}
+                    className={`notif-item ${!n.leida ? "notif-no-leida" : ""} ${enlace ? "notif-clickable" : ""}`}
+                    onClick={() => enlace && marcarLeida(n.id, n.mensaje)}
+                  >
+                    <div className="notif-content">
+                      <h3>{n.titulo}</h3>
+                      <p>
+                        {textoMensaje}
+                        {enlace && <span className="notif-ver"> Ver →</span>}
+                      </p>
+                      <span className="notif-fecha">
+                        {new Date(n.fecha).toLocaleDateString()}{" "}
+                        {new Date(n.fecha).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      </span>
+                    </div>
+                    {!n.leida && !enlace && (
+                      <button
+                        className="btn-notif-leer"
+                        onClick={(e) => { e.stopPropagation(); marcarLeida(n.id, n.mensaje); }}
+                      >
+                        ✓ Leída
+                      </button>
+                    )}
                   </div>
-                  {!n.leida && (
-                    <button className="btn-notif-leer" onClick={() => marcarLeida(n.id)}>
-                      ✓ Leída
-                    </button>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>

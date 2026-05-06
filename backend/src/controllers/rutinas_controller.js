@@ -22,7 +22,7 @@ La rutina debe ser clara, estructurada por días, con ejercicios específicos, s
 Incluye también consejos de nutrición básicos y de descanso. Responde en español.`
         }
       ],
-      max_tokens: 800,
+      max_tokens: 2048,
       temperature: 0.7,
     });
 

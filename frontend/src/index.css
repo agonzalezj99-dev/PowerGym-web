@@ -50,17 +50,22 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  min-height: 120px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 10px;
+  z-index: 1;
 }
 
 .header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
-  flex: 1;
+  pointer-events: none;
 }
 
 .header-right {
@@ -69,6 +74,8 @@ header {
   gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  z-index: 1;
+  margin-left: auto;
 }
 
 .header-notif {
@@ -1370,6 +1377,18 @@ footer {
   font-size: 0.9em;
   line-height: 1.8;
   color: #333;
+}
+
+.rutinas-login-required {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.rutinas-login-required h3 {
+  margin: 15px 0 10px;
+  color: #2c3e50;
+  font-size: 1.4em;
 }
 
 .oscuro .rutinas-resultado {

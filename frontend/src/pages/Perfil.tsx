@@ -6,7 +6,6 @@ import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 import FooterAdmin from "../components/FooterAdmin";
 
-
 interface Usuario {
   nombre: string;
   email: string;
@@ -73,11 +72,27 @@ const Perfil = () => {
     setTimeout(() => setMensaje(""), 3000);
   };
 
+  const handleDarseDeBaja = async () => {
+    if (!confirm("¿Estás seguro de que quieres darte de baja?\n\nSe cancelarán todas tus inscripciones a clases pendientes.\n\nEsta acción no se puede deshacer.")) return;
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/usuarios/perfil`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (res.ok) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("rol");
+      localStorage.removeItem("nombre");
+      navigate("/");
+    }
+  };
+
   if (!usuario) return <p style={{ textAlign: "center", padding: "40px" }}>Cargando...</p>;
 
   return (
     <>
-      <Header subtitle="Tu perfil de PowerGym" />
+      <Header subtitle="Tu perfil de PowerGym" hideLanguage={usuario.rol === "admin"} />
       {usuario.rol === "admin" ? <NavbarAdmin /> : <Navbar />}
       <main className="container">
         <section style={{ gridColumn: "1 / -1" }}>
@@ -122,7 +137,18 @@ const Perfil = () => {
                 <span className="perfil-dato-label">Miembro desde</span>
                 <span>{new Date(usuario.fecha_registro).toLocaleDateString()}</span>
               </div>
-              <button className="btn" onClick={() => setEditando(true)}>Editar perfil</button>
+              <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                <button className="btn" onClick={() => setEditando(true)}>Editar perfil</button>
+                {usuario.rol !== "admin" && (
+                  <button
+                    className="btn"
+                    style={{ backgroundColor: "#e74c3c" }}
+                    onClick={handleDarseDeBaja}
+                  >
+                    Darse de baja
+                  </button>
+                )}
+              </div>
             </div>
           ) : (
             <div className="perfil-form">
@@ -134,18 +160,16 @@ const Perfil = () => {
                 <label>Fecha de nacimiento</label>
                 <input type="date" name="fecha_nacimiento" value={form.fecha_nacimiento} onChange={handleChange} />
               </div>
-              <div className="form-group">
-                {usuario.rol !== "admin" && (
-                  <div className="form-group">
-                    <label>Membresía</label>
-                    <select name="membresia" value={form.membresia} onChange={handleChange}>
-                      <option value="basica">Básica - 29€/mes</option>
-                      <option value="pro">Pro - 49€/mes</option>
-                      <option value="premium">Premium - 79€/mes</option>
-                    </select>
-                  </div>
-                )}
-              </div>
+              {usuario.rol !== "admin" && (
+                <div className="form-group">
+                  <label>Membresía</label>
+                  <select name="membresia" value={form.membresia} onChange={handleChange}>
+                    <option value="basica">Básica - 29€/mes</option>
+                    <option value="pro">Pro - 49€/mes</option>
+                    <option value="premium">Premium - 79€/mes</option>
+                  </select>
+                </div>
+              )}
               <div className="form-group">
                 <label>Nueva contraseña (dejar vacío para no cambiar)</label>
                 <input type="password" name="contrasena" value={form.contrasena} onChange={handleChange} placeholder="••••••••" />

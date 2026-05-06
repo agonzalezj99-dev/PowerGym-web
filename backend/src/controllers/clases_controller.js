@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { crearNotificacion } = require("./notificaciones_controller");
 
 // VER TODAS LAS CLASES
 const getClases = async (req, res) => {
@@ -30,7 +31,7 @@ const getClase = async (req, res) => {
   }
 };
 
-// CREAR CLASE (solo admin)
+// CREAR CLASE
 const createClase = async (req, res) => {
   const { nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max } = req.body;
   try {
@@ -45,14 +46,44 @@ const createClase = async (req, res) => {
   }
 };
 
-// EDITAR CLASE (solo admin)
+// EDITAR CLASE
 const updateClase = async (req, res) => {
   const { nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max } = req.body;
   try {
+    const claseAnterior = await db.query("SELECT * FROM clases WHERE id = $1", [req.params.id]);
+
+    if (claseAnterior.rows.length === 0) {
+      return res.status(404).json({ error: "Clase no encontrada" });
+    }
+
+    const anterior = claseAnterior.rows[0];
+
     await db.query(
       "UPDATE clases SET nombre = $1, instructor = $2, dia_semana = $3, hora_inicio = $4, hora_fin = $5, plazas_max = $6 WHERE id = $7",
       [nombre, instructor, dia_semana, hora_inicio, hora_fin, plazas_max, req.params.id]
     );
+
+    const cambios = [];
+    if (anterior.instructor !== instructor) cambios.push(`instructor: ${anterior.instructor} → ${instructor}`);
+    if (anterior.hora_inicio.slice(0,5) !== hora_inicio) cambios.push(`hora inicio: ${anterior.hora_inicio.slice(0,5)} → ${hora_inicio}`);
+    if (anterior.hora_fin.slice(0,5) !== hora_fin) cambios.push(`hora fin: ${anterior.hora_fin.slice(0,5)} → ${hora_fin}`);
+    if (anterior.dia_semana !== dia_semana) cambios.push(`día: ${anterior.dia_semana} → ${dia_semana}`);
+
+    if (cambios.length > 0) {
+      const inscritos = await db.query(
+        "SELECT usuario_id FROM inscripciones WHERE clase_id = $1",
+        [req.params.id]
+      );
+
+      for (const inscrito of inscritos.rows) {
+        await crearNotificacion(
+          inscrito.usuario_id,
+          `Cambio en clase: ${nombre}`,
+          `La clase ${nombre} del ${dia_semana} ha sido modificada. Cambios: ${cambios.join(", ")}.`
+        );
+      }
+    }
+
     res.json({ mensaje: "Clase actualizada correctamente" });
   } catch (error) {
     console.error(error);
@@ -60,7 +91,7 @@ const updateClase = async (req, res) => {
   }
 };
 
-// BORRAR CLASE (solo admin)
+// BORRAR CLASE
 const deleteClase = async (req, res) => {
   try {
     await db.query("DELETE FROM clases WHERE id = $1", [req.params.id]);
