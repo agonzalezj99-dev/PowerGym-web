@@ -6,13 +6,17 @@
   box-sizing: border-box;
 }
 
+/* FIX: contención global de overflow horizontal */
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: #333;
   background-color: #f4f4f4;
   transition: background-color 0.3s ease, color 0.3s ease;
-  /* Evita overflow horizontal en móvil */
   overflow-x: hidden;
 }
 
@@ -32,6 +36,7 @@ a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  overflow-x: hidden; /* FIX */
 }
 
 /* ===================== HEADER ===================== */
@@ -97,7 +102,6 @@ header {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  /* Mínimo tap target */
   min-width: 44px;
   min-height: 44px;
 }
@@ -126,7 +130,6 @@ header {
   font-weight: bold;
   transition: all 0.3s ease;
   white-space: nowrap;
-  /* Mínimo tap target */
   min-height: 44px;
 }
 
@@ -144,7 +147,6 @@ nav.navbar .nav-link {
   font-weight: bold;
   padding: 4px 8px;
   transition: color 0.3s ease;
-  /* Tap target adecuado */
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -238,6 +240,7 @@ section {
   margin-bottom: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* FIX: evita que hijos desborden la sección */
 }
 
 aside {
@@ -289,7 +292,6 @@ th {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  /* Evita zoom automático en iOS */
   font-size: 16px;
 }
 
@@ -305,7 +307,6 @@ button[type="submit"],
   font-size: 1em;
   text-decoration: none;
   display: inline-block;
-  /* Tap target mínimo */
   min-height: 44px;
 }
 
@@ -584,6 +585,8 @@ footer {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;  /* FIX */
+  width: 100%;      /* FIX */
 }
 
 .tabla-horarios {
@@ -785,7 +788,6 @@ footer {
   padding: 12px;
   background: #f9f9f9;
   border-radius: 6px;
-  /* Evita overflow en nombres largos */
   word-break: break-word;
   gap: 10px;
 }
@@ -1197,7 +1199,6 @@ footer {
   font-size: 0.9em;
   opacity: 0.8;
   transition: opacity 0.3s ease;
-  /* Tap target en footer */
   display: inline-block;
   padding: 4px 0;
 }
@@ -1222,7 +1223,6 @@ footer {
 
 /* ===================== RESPONSIVE MÓVIL ===================== */
 @media (max-width: 480px) {
-  /* Header apilado y compacto */
   header {
     flex-direction: column;
     padding: 12px 16px;
@@ -1254,7 +1254,6 @@ footer {
     gap: 8px;
   }
 
-  /* Secciones con menos padding */
   section {
     padding: 16px;
     margin-bottom: 12px;
@@ -1264,7 +1263,6 @@ footer {
     padding: 12px;
   }
 
-  /* Hero más compacto */
   .hero {
     padding: 40px 16px;
   }
@@ -1287,7 +1285,6 @@ footer {
     width: 100%;
   }
 
-  /* Stats en 2 columnas */
   .stats-grid {
     gap: 16px;
     justify-content: space-around;
@@ -1295,17 +1292,16 @@ footer {
 
   .stat-numero { font-size: 2em; }
 
-  /* Servicios y planes en 1 columna */
   .servicios-grid,
   .planes-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Horarios con scroll horizontal */
+  /* FIX PRINCIPAL: tabla horarios en móvil */
   .tabla-horarios th,
   .tabla-horarios td {
-    padding: 8px 6px;
-    font-size: 0.8em;
+    padding: 6px 4px;   /* reducido de 8px 6px */
+    font-size: 0.75em;  /* reducido de 0.8em */
   }
 
   .btn-inscribirse {
@@ -1313,23 +1309,19 @@ footer {
     padding: 6px;
   }
 
-  /* Apertura en columna única */
   .apertura-item {
     min-width: 100%;
     flex: none;
   }
 
-  /* Contacto en columna única */
   .contacto-layout {
     grid-template-columns: 1fr;
   }
 
-  /* Inscripciones en columna única */
   .inscripciones-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Perfil apilado */
   .perfil-header {
     flex-direction: column;
     text-align: center;
@@ -1344,7 +1336,6 @@ footer {
     max-width: 100%;
   }
 
-  /* Dashboard en 2 columnas */
   .dashboard-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -1357,12 +1348,10 @@ footer {
   .dashboard-numero { font-size: 1.8em; }
   .dashboard-emoji { font-size: 1.5em; }
 
-  /* Rutinas en columna única */
   .rutinas-layout {
     grid-template-columns: 1fr;
   }
 
-  /* Notificaciones — botón debajo del texto */
   .notif-item {
     flex-direction: column;
     align-items: flex-start;
@@ -1374,19 +1363,16 @@ footer {
     text-align: center;
   }
 
-  /* Usuarios en columna única */
   .usuarios-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Footer en 2 columnas */
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     padding: 24px 16px 16px;
   }
 
-  /* Idiomas más compactos */
   .language-switch {
     margin-right: 0;
   }
@@ -1397,7 +1383,6 @@ footer {
     min-width: 44px;
   }
 
-  /* Consultas header apilado */
   .consulta-header {
     flex-direction: column;
     gap: 4px;
