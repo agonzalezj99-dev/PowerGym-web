@@ -2,8 +2,6 @@ import { NavLink } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 
 const Navbar = () => {
-  const token = localStorage.getItem("token");
-  const rol = localStorage.getItem("rol");
   const { t } = useLanguage();
 
   return (
