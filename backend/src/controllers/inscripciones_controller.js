@@ -5,7 +5,7 @@ const { crearNotificacion } = require("./notificaciones_controller");
 const getMisInscripciones = async (req, res) => {
   try {
     const result = await db.query(
-      `SELECT i.id, c.nombre, c.instructor, c.dia_semana, c.hora_inicio, c.hora_fin
+      `SELECT i.id, i.clase_id, c.nombre, c.instructor, c.dia_semana, c.hora_inicio, c.hora_fin
        FROM inscripciones i
        JOIN clases c ON i.clase_id = c.id
        WHERE i.usuario_id = $1`,

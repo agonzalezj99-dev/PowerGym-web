@@ -25,6 +25,7 @@ const dayKeyMap = {
 
 const Horarios = () => {
   const [clases, setClases] = useState<Clase[]>([]);
+  const [misInscripciones, setMisInscripciones] = useState<number[]>([]);
   const token = localStorage.getItem("token");
   const rol = localStorage.getItem("rol");
   const { t } = useLanguage();
@@ -34,6 +35,17 @@ const Horarios = () => {
     fetch(`${import.meta.env.VITE_API_URL}/api/clases`)
       .then((res) => res.json())
       .then((data) => setClases(data));
+
+    if (token && rol !== "admin") {
+      fetch(`${import.meta.env.VITE_API_URL}/api/inscripciones`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const ids = data.map((i: any) => i.clase_id);
+          setMisInscripciones(ids);
+        });
+    }
   }, []);
 
   const getHorarios = (nombre: string, dia: string) => {
@@ -57,6 +69,7 @@ const Horarios = () => {
       alert(data.error || t("horarios.joinError"));
       return;
     }
+    setMisInscripciones([...misInscripciones, clase_id]);
     alert(t("horarios.joinSuccess"));
   };
 
@@ -94,13 +107,17 @@ const Horarios = () => {
                                   {h.hora_inicio.slice(0, 5)}-{h.hora_fin.slice(0, 5)}
                                 </span>
                                 {token && rol !== "admin" && (
-                                  <button
-                                    onClick={() => handleInscribirse(h.id)}
-                                    className="btn-inscribirse"
-                                    title={t("horarios.joinTooltip")}
-                                  >
-                                    {t("horarios.joinClass")}
-                                  </button>
+                                  misInscripciones.includes(h.id) ? (
+                                    <span className="inscrito-badge">✓ Inscrito</span>
+                                  ) : (
+                                    <button
+                                      onClick={() => handleInscribirse(h.id)}
+                                      className="btn-inscribirse"
+                                      title={t("horarios.joinTooltip")}
+                                    >
+                                      {t("horarios.joinClass")}
+                                    </button>
+                                  )
                                 )}
                               </div>
                             ))}
