@@ -12,19 +12,13 @@ body {
   color: #333;
   background-color: #f4f4f4;
   transition: background-color 0.3s ease, color 0.3s ease;
+  /* Evita overflow horizontal en móvil */
+  overflow-x: hidden;
 }
 
-h1 {
-  font-size: 1.8em;
-}
-
-h2 {
-  font-size: 1.4em;
-}
-
-h3 {
-  font-size: 1.2em;
-}
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.4em; }
+h3 { font-size: 1.2em; }
 
 button,
 input,
@@ -40,6 +34,7 @@ a {
   padding: 20px;
 }
 
+/* ===================== HEADER ===================== */
 header {
   background-color: #2c3e50;
   color: white;
@@ -86,9 +81,7 @@ header {
   transition: color 0.3s ease;
 }
 
-.header-notif:hover {
-  color: #f39c12;
-}
+.header-notif:hover { color: #f39c12; }
 
 #modoBoton {
   position: static;
@@ -104,6 +97,9 @@ header {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  /* Mínimo tap target */
+  min-width: 44px;
+  min-height: 44px;
 }
 
 #modoBoton:hover {
@@ -118,9 +114,7 @@ header {
   transition: color 0.3s ease;
 }
 
-.header-nombre:hover {
-  color: #f39c12;
-}
+.header-nombre:hover { color: #f39c12; }
 
 .header-btn {
   background-color: transparent;
@@ -132,6 +126,8 @@ header {
   font-weight: bold;
   transition: all 0.3s ease;
   white-space: nowrap;
+  /* Mínimo tap target */
+  min-height: 44px;
 }
 
 .header-btn:hover {
@@ -139,39 +135,8 @@ header {
   border-color: white;
 }
 
-.oscuro .header-btn {
-  color: #ffd700;
-  border-color: #ffd700;
-}
-
-.oscuro .header-nombre {
-  color: white;
-}
-
-.oscuro .header-notif {
-  color: white;
-}
-
-.oscuro .language-btn {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.oscuro .language-btn:hover {
-  border-color: #f39c12;
-  color: #f39c12;
-  background-color: rgba(243, 156, 18, 0.1);
-}
-
-.oscuro .language-btn.active {
-  background-color: #f39c12;
-  border-color: #f39c12;
-  color: #1d2630;
-}
-
-nav.navbar {
-  background-color: #34495e;
-}
+/* ===================== NAVBAR ===================== */
+nav.navbar { background-color: #34495e; }
 
 nav.navbar .nav-link {
   color: #ffffff;
@@ -179,21 +144,19 @@ nav.navbar .nav-link {
   font-weight: bold;
   padding: 4px 8px;
   transition: color 0.3s ease;
+  /* Tap target adecuado */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 nav.navbar .nav-link:hover,
-nav.navbar .nav-link.active {
-  color: #f39c12;
-}
+nav.navbar .nav-link.active { color: #f39c12; }
 
-nav.navbar .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.4);
-}
+nav.navbar .navbar-toggler { border-color: rgba(255, 255, 255, 0.4); }
+nav.navbar .navbar-toggler-icon { filter: invert(1); }
 
-nav.navbar .navbar-toggler-icon {
-  filter: invert(1);
-}
-
+/* ===================== IDIOMAS ===================== */
 .language-switch {
   display: flex;
   gap: 6px;
@@ -211,11 +174,14 @@ nav.navbar .navbar-toggler-icon {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 40px;
+  min-width: 44px;
+  min-height: 44px;
   text-align: center;
-  /* Ensure emoji flags render with system emoji fonts */
   font-family: 'Segoe UI Emoji', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Symbol', sans-serif;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .language-btn svg {
@@ -237,7 +203,7 @@ nav.navbar .navbar-toggler-icon {
   color: inherit;
   text-transform: lowercase;
   line-height: 1;
-  margin-right: 4px; /* small spacing to the left of the flag */
+  margin-right: 4px;
 }
 
 .language-btn:hover {
@@ -258,15 +224,7 @@ nav.navbar .navbar-toggler-icon {
   border-color: #e8931a;
 }
 
-/*Menu hamburguesa */
-.navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
-.navbar-toggler-icon {
-  filter: invert(1);
-}
-
+/* ===================== LAYOUT GENERAL ===================== */
 main.container {
   display: grid;
   grid-template-columns: 1fr;
@@ -298,14 +256,14 @@ aside {
   border-radius: 5px;
 }
 
+/* ===================== TABLA ===================== */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-th,
-td {
+th, td {
   border: 1px solid #ddd;
   padding: 12px;
   text-align: left;
@@ -316,9 +274,8 @@ th {
   color: white;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
+/* ===================== FORMULARIOS ===================== */
+.form-group { margin-bottom: 15px; }
 
 .form-group label {
   display: block;
@@ -332,8 +289,11 @@ th {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  /* Evita zoom automático en iOS */
+  font-size: 16px;
 }
 
+/* ===================== BOTONES ===================== */
 button[type="submit"],
 .btn {
   background-color: #2ecc71;
@@ -345,32 +305,20 @@ button[type="submit"],
   font-size: 1em;
   text-decoration: none;
   display: inline-block;
+  /* Tap target mínimo */
+  min-height: 44px;
 }
 
 button[type="submit"]:focus,
 .btn:focus {
   background-color: #1e32a8;
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  text-decoration: none;
-  display: inline-block;
 }
 
 button[type="submit"]:hover,
 .btn:hover {
   background-color: #1d8649;
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  text-decoration: none;
-  display: inline-block;
 }
 
 .btn-inscribirse {
@@ -382,15 +330,14 @@ button[type="submit"]:hover,
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  padding: 4px 8px;
-  font-size: 0.8em;
+  padding: 8px;
+  font-size: 0.85em;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  min-height: 44px;
 }
 
-.btn-inscribirse:hover {
-  background-color: #1d8649;
-}
+.btn-inscribirse:hover { background-color: #1d8649; }
 
 .btn-borrar {
   display: block;
@@ -401,16 +348,16 @@ button[type="submit"]:hover,
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  padding: 4px 8px;
-  font-size: 0.8em;
+  padding: 8px;
+  font-size: 0.85em;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  min-height: 44px;
 }
 
-.btn-borrar:hover {
-  background-color: #c0392b;
-}
+.btn-borrar:hover { background-color: #c0392b; }
 
+/* ===================== FOOTER ===================== */
 footer {
   background-color: #2c3e50;
   color: white;
@@ -420,20 +367,16 @@ footer {
   border-top: 5px solid #f39c12;
 }
 
-/* MODO OSCURO */
+/* ===================== MODO OSCURO ===================== */
 .oscuro {
   background-color: #121212;
   color: #e0e0e0;
 }
 
 .oscuro header,
-.oscuro footer {
-  background-color: #000;
-}
+.oscuro footer { background-color: #000; }
 
-.oscuro nav.navbar {
-  background-color: #1a1a1a;
-}
+.oscuro nav.navbar { background-color: #1a1a1a; }
 
 .oscuro section,
 .oscuro aside {
@@ -451,9 +394,7 @@ footer {
   border-color: #ffd700;
 }
 
-.oscuro td {
-  border-color: #444;
-}
+.oscuro td { border-color: #444; }
 
 .oscuro input,
 .oscuro textarea {
@@ -467,13 +408,8 @@ footer {
   border-color: #ffd700;
 }
 
-.oscuro .header-nombre {
-  color: #ffffff;
-}
-
-.oscuro .header-notif {
-  color: white;
-}
+.oscuro .header-nombre { color: #ffffff; }
+.oscuro .header-notif { color: white; }
 
 .oscuro .language-btn {
   color: #ffffff;
@@ -493,12 +429,9 @@ footer {
   font-weight: 800;
 }
 
-.oscuro .btn-inscribirse {
-  background-color: #27ae60;
-}
+.oscuro .btn-inscribirse { background-color: #27ae60; }
 
-
-/* HERO */
+/* ===================== HERO ===================== */
 .hero {
   background: linear-gradient(135deg, #2ecc71, #1d8649);
   color: white;
@@ -529,13 +462,8 @@ footer {
   flex-wrap: wrap;
 }
 
-.hero .btn:not(.btn-outline) {
-  background-color: #2c3e50;
-}
-
-.hero .btn:not(.btn-outline):hover {
-  background-color: #1a252f;
-}
+.hero .btn:not(.btn-outline) { background-color: #2c3e50; }
+.hero .btn:not(.btn-outline):hover { background-color: #1a252f; }
 
 .btn-outline {
   background-color: transparent;
@@ -548,7 +476,7 @@ footer {
   color: #2c3e50;
 }
 
-/* STATS */
+/* ===================== STATS ===================== */
 .stats-section {
   background-color: #f39c12;
   padding: 30px 20px;
@@ -579,7 +507,7 @@ footer {
   opacity: 0.9;
 }
 
-/* SERVICIOS */
+/* ===================== SERVICIOS ===================== */
 .servicios-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -607,7 +535,7 @@ footer {
   margin-bottom: 10px;
 }
 
-/* PLANES */
+/* ===================== PLANES ===================== */
 .planes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -624,9 +552,7 @@ footer {
   transition: transform 0.3s ease;
 }
 
-.plan-card:hover {
-  transform: translateY(-5px);
-}
+.plan-card:hover { transform: translateY(-5px); }
 
 .plan-precio {
   font-size: 1.8em;
@@ -646,39 +572,24 @@ footer {
   color: #555;
 }
 
-/* MODO OSCURO */
-.oscuro .hero {
-  background: linear-gradient(135deg, #000, #1a1a1a);
-}
+.oscuro .hero { background: linear-gradient(135deg, #000, #1a1a1a); }
+.oscuro .servicio-card { background-color: #2a2a3e; color: white; }
+.oscuro .plan-card { background-color: #1e1e2e; color: white; }
+.oscuro .plan-precio { color: #e0e0e0; }
+.oscuro .plan-features li { color: #ccc; }
 
-.oscuro .servicio-card {
-  background-color: #2a2a3e;
-  color: white;
-}
-
-.oscuro .plan-card {
-  background-color: #1e1e2e;
-  color: white;
-}
-
-.oscuro .plan-precio {
-  color: #e0e0e0;
-}
-
-.oscuro .plan-features li {
-  color: #ccc;
-}
-
-/* HORARIOS */
+/* ===================== HORARIOS ===================== */
 .tabla-wrapper {
   overflow-x: auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  -webkit-overflow-scrolling: touch;
 }
 
 .tabla-horarios {
   width: 100%;
   border-collapse: collapse;
+  min-width: 500px;
 }
 
 .tabla-horarios th {
@@ -688,27 +599,12 @@ footer {
   text-align: center;
 }
 
-.fila-par td {
-  background-color: #f9f9f9;
-}
+.fila-par td { background-color: #f9f9f9; }
+.fila-impar td { background-color: #ffffff; }
 
-.fila-impar td {
-  background-color: #ffffff;
-}
-
-.celda-clase {
-  padding: 12px;
-  font-size: 1em;
-}
-
-.celda-horario {
-  padding: 10px;
-  text-align: center;
-}
-
-.horario-item {
-  margin-bottom: 5px;
-}
+.celda-clase { padding: 12px; font-size: 1em; }
+.celda-horario { padding: 10px; text-align: center; }
+.horario-item { margin-bottom: 5px; }
 
 .horario-hora {
   display: block;
@@ -716,13 +612,9 @@ footer {
   color: #2c3e50;
 }
 
-.sin-clase {
-  color: #bbb;
-}
+.sin-clase { color: #bbb; }
 
-.apertura-section {
-  margin-top: 20px;
-}
+.apertura-section { margin-top: 20px; }
 
 .apertura-grid {
   display: flex;
@@ -736,18 +628,16 @@ footer {
   min-width: 200px;
   background: #f9f9f9;
   border-left: 4px solid #2ecc71;
-  border-radius: 6px;
+  border-radius: 0 6px 6px 0;
   padding: 15px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.apertura-emoji {
-  font-size: 1.5em;
-}
+.apertura-emoji { font-size: 1.5em; }
 
-/* CONTACTO */
+/* ===================== CONTACTO ===================== */
 .contacto-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -776,11 +666,9 @@ footer {
   padding: 20px;
 }
 
-.contacto-info p {
-  margin: 8px 0;
-}
+.contacto-info p { margin: 8px 0; }
 
-/* INSCRIPCIONES */
+/* ===================== INSCRIPCIONES ===================== */
 .inscripciones-empty {
   text-align: center;
   padding: 40px;
@@ -802,9 +690,7 @@ footer {
   transition: transform 0.3s ease;
 }
 
-.inscripcion-card:hover {
-  transform: translateY(-4px);
-}
+.inscripcion-card:hover { transform: translateY(-4px); }
 
 .inscripcion-header {
   background-color: #2c3e50;
@@ -815,9 +701,7 @@ footer {
   align-items: center;
 }
 
-.inscripcion-header h3 {
-  margin: 0;
-}
+.inscripcion-header h3 { margin: 0; }
 
 .inscripcion-dia {
   background-color: #f39c12;
@@ -827,13 +711,8 @@ footer {
   text-transform: capitalize;
 }
 
-.inscripcion-body {
-  padding: 15px;
-}
-
-.inscripcion-body p {
-  margin: 5px 0;
-}
+.inscripcion-body { padding: 15px; }
+.inscripcion-body p { margin: 5px 0; }
 
 .btn-cancelar {
   display: block;
@@ -841,41 +720,23 @@ footer {
   background-color: #e74c3c;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  min-height: 44px;
 }
 
-.btn-cancelar:hover {
-  background-color: #c0392b;
-}
+.btn-cancelar:hover { background-color: #c0392b; }
 
-/* MODO OSCURO */
 .oscuro .fila-par td,
-.oscuro .fila-impar td {
-  background-color: #1e1e2e;
-  color: white;
-}
+.oscuro .fila-impar td { background-color: #1e1e2e; color: white; }
+.oscuro .horario-hora { color: #f39c12; }
+.oscuro .apertura-item { background-color: #2a2a3e; color: white; }
+.oscuro .inscripcion-card { background-color: #1e1e2e; }
+.oscuro .inscripcion-body { color: #e0e0e0; }
 
-.oscuro .horario-hora {
-  color: #f39c12;
-}
-
-.oscuro .apertura-item {
-  background-color: #2a2a3e;
-  color: white;
-}
-
-.oscuro .inscripcion-card {
-  background-color: #1e1e2e;
-}
-
-.oscuro .inscripcion-body {
-  color: #e0e0e0;
-}
-
-/* PERFIL */
+/* ===================== PERFIL ===================== */
 .perfil-header {
   display: flex;
   align-items: center;
@@ -924,16 +785,18 @@ footer {
   padding: 12px;
   background: #f9f9f9;
   border-radius: 6px;
+  /* Evita overflow en nombres largos */
+  word-break: break-word;
+  gap: 10px;
 }
 
 .perfil-dato-label {
   font-weight: bold;
   color: #666;
+  flex-shrink: 0;
 }
 
-.perfil-form {
-  max-width: 500px;
-}
+.perfil-form { max-width: 500px; }
 
 .perfil-mensaje {
   background-color: #2ecc71;
@@ -944,31 +807,11 @@ footer {
   text-align: center;
 }
 
-.header-nombre {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
+.oscuro .perfil-dato { background-color: #2a2a3e; color: white; }
+.oscuro .perfil-dato-label { color: #aaa; }
+.oscuro .perfil-header { border-bottom-color: #333; }
 
-.header-nombre:hover {
-  color: #f39c12;
-}
-
-.oscuro .perfil-dato {
-  background-color: #2a2a3e;
-  color: white;
-}
-
-.oscuro .perfil-dato-label {
-  color: #aaa;
-}
-
-.oscuro .perfil-header {
-  border-bottom-color: #333;
-}
-
-/* NOTIFICACIONES */
+/* ===================== NOTIFICACIONES ===================== */
 .notif-header {
   display: flex;
   justify-content: space-between;
@@ -1014,13 +857,8 @@ footer {
   background-color: #fffbf0;
 }
 
-.notif-content {
-  flex: 1;
-}
-
-.notif-content h3 {
-  margin-bottom: 5px;
-}
+.notif-content { flex: 1; }
+.notif-content h3 { margin-bottom: 5px; }
 
 .notif-fecha {
   font-size: 0.8em;
@@ -1034,31 +872,30 @@ footer {
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 6px 12px;
+  padding: 8px 12px;
   cursor: pointer;
   font-weight: bold;
   white-space: nowrap;
   transition: background-color 0.3s ease;
+  min-height: 44px;
 }
 
-.btn-notif-leer:hover {
-  background-color: #1d8649;
+.btn-notif-leer:hover { background-color: #1d8649; }
+
+.notif-clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.oscuro .notif-item {
-  background-color: #1e1e2e;
-  color: white;
-}
+.notif-clickable:hover { background-color: #fff8e6; }
+.notif-ver { color: #f39c12; font-weight: bold; }
 
-.oscuro .notif-no-leida {
-  background-color: #2a2a1e;
-}
+.oscuro .notif-item { background-color: #1e1e2e; color: white; }
+.oscuro .notif-no-leida { background-color: #2a2a1e; }
+.oscuro .notif-fecha { color: #aaa; }
+.oscuro .notif-clickable:hover { background-color: #2a2a1e; }
 
-.oscuro .notif-fecha {
-  color: #aaa;
-}
-
-/* DASHBOARD */
+/* ===================== DASHBOARD ===================== */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1086,7 +923,7 @@ footer {
 .dashboard-numero { font-size: 2.5em; font-weight: bold; }
 .dashboard-label { font-size: 0.9em; opacity: 0.9; }
 
-/* CLASES POPULARES */
+/* ===================== CLASES POPULARES ===================== */
 .populares-lista {
   display: flex;
   flex-direction: column;
@@ -1111,9 +948,7 @@ footer {
   min-width: 40px;
 }
 
-.popular-info {
-  flex: 1;
-}
+.popular-info { flex: 1; }
 
 .popular-nombre {
   font-weight: bold;
@@ -1141,20 +976,11 @@ footer {
   white-space: nowrap;
 }
 
-.oscuro .popular-item {
-  background-color: #1e1e2e;
-  color: white;
-}
+.oscuro .popular-item { background-color: #1e1e2e; color: white; }
+.oscuro .popular-barra-wrapper { background-color: #2a2a3e; }
+.oscuro .popular-inscritos { color: #aaa; }
 
-.oscuro .popular-barra-wrapper {
-  background-color: #2a2a3e;
-}
-
-.oscuro .popular-inscritos {
-  color: #aaa;
-}
-
-/* USUARIOS ADMIN */
+/* ===================== USUARIOS ADMIN ===================== */
 .usuarios-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1186,13 +1012,8 @@ footer {
   margin: 0 auto;
 }
 
-.usuario-info {
-  flex: 1;
-}
-
-.usuario-info h3 {
-  margin-bottom: 8px;
-}
+.usuario-info { flex: 1; }
+.usuario-info h3 { margin-bottom: 8px; }
 
 .usuario-info p {
   margin: 4px 0;
@@ -1206,6 +1027,7 @@ footer {
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 8px;
+  font-size: 16px;
 }
 
 .usuario-acciones {
@@ -1217,26 +1039,16 @@ footer {
 .usuario-acciones .btn-borrar {
   flex: 1;
   text-align: center;
-  padding: 8px;
+  padding: 10px 8px;
   font-size: 0.85em;
+  min-height: 44px;
 }
 
-.oscuro .usuario-card {
-  background-color: #1e1e2e;
-  color: white;
-}
+.oscuro .usuario-card { background-color: #1e1e2e; color: white; }
+.oscuro .usuario-info p { color: #aaa; }
+.oscuro .usuario-editar select { background-color: #2a2a3e; color: white; border-color: #444; }
 
-.oscuro .usuario-info p {
-  color: #aaa;
-}
-
-.oscuro .usuario-editar select {
-  background-color: #2a2a3e;
-  color: white;
-  border-color: #444;
-}
-
-/* CONSULTAS */
+/* ===================== CONSULTAS ===================== */
 .consultas-lista {
   display: flex;
   flex-direction: column;
@@ -1250,6 +1062,7 @@ footer {
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   border-left: 4px solid #f39c12;
+  border-radius: 0 8px 8px 0;
 }
 
 .consulta-header {
@@ -1259,14 +1072,8 @@ footer {
   margin-bottom: 10px;
 }
 
-.consulta-header h3 {
-  margin-bottom: 4px;
-}
-
-.consulta-header p {
-  font-size: 0.9em;
-  color: #666;
-}
+.consulta-header h3 { margin-bottom: 4px; }
+.consulta-header p { font-size: 0.9em; color: #666; }
 
 .consulta-fecha {
   font-size: 0.8em;
@@ -1281,39 +1088,11 @@ footer {
   font-size: 0.95em;
 }
 
-.notif-clickable {
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+.oscuro .consulta-card { background-color: #1e1e2e; color: white; }
+.oscuro .consulta-header p { color: #aaa; }
+.oscuro .consulta-mensaje { background-color: #2a2a3e; color: white; }
 
-.notif-clickable:hover {
-  background-color: #fff8e6;
-}
-
-.notif-ver {
-  color: #f39c12;
-  font-weight: bold;
-}
-
-.oscuro .consulta-card {
-  background-color: #1e1e2e;
-  color: white;
-}
-
-.oscuro .consulta-header p {
-  color: #aaa;
-}
-
-.oscuro .consulta-mensaje {
-  background-color: #2a2a3e;
-  color: white;
-}
-
-.oscuro .notif-clickable:hover {
-  background-color: #2a2a1e;
-}
-
-/* RUTINAS */
+/* ===================== RUTINAS ===================== */
 .rutinas-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1337,15 +1116,8 @@ footer {
   justify-content: center;
 }
 
-.rutinas-vacio {
-  text-align: center;
-  color: #888;
-}
-
-.rutinas-cargando {
-  text-align: center;
-  color: #666;
-}
+.rutinas-vacio { text-align: center; color: #888; }
+.rutinas-cargando { text-align: center; color: #666; }
 
 .rutinas-spinner {
   width: 40px;
@@ -1362,9 +1134,7 @@ footer {
   100% { transform: rotate(360deg); }
 }
 
-.rutinas-texto {
-  width: 100%;
-}
+.rutinas-texto { width: 100%; }
 
 .rutinas-texto h3 {
   margin-bottom: 15px;
@@ -1391,19 +1161,11 @@ footer {
   font-size: 1.4em;
 }
 
-.oscuro .rutinas-resultado {
-  background-color: #1e1e2e;
-}
+.oscuro .rutinas-resultado { background-color: #1e1e2e; }
+.oscuro .rutinas-texto pre { color: #e0e0e0; }
+.oscuro .rutinas-texto h3 { color: #f39c12; }
 
-.oscuro .rutinas-texto pre {
-  color: #e0e0e0;
-}
-
-.oscuro .rutinas-texto h3 {
-  color: #f39c12;
-}
-
-/* FOOTER */
+/* ===================== FOOTER GRID ===================== */
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1426,13 +1188,8 @@ footer {
   margin: 5px 0;
 }
 
-.footer-links {
-  list-style: none;
-}
-
-.footer-links li {
-  margin: 5px 0;
-}
+.footer-links { list-style: none; }
+.footer-links li { margin: 5px 0; }
 
 .footer-links a {
   color: white;
@@ -1440,6 +1197,9 @@ footer {
   font-size: 0.9em;
   opacity: 0.8;
   transition: opacity 0.3s ease;
+  /* Tap target en footer */
+  display: inline-block;
+  padding: 4px 0;
 }
 
 .footer-links a:hover {
@@ -1460,8 +1220,196 @@ footer {
   padding: 20px;
 }
 
-@media (max-width: 768px) {
-   header {
+/* ===================== RESPONSIVE MÓVIL ===================== */
+@media (max-width: 480px) {
+  /* Header apilado y compacto */
+  header {
+    flex-direction: column;
+    padding: 12px 16px;
+    gap: 8px;
+    min-height: auto;
+  }
+
+  .header-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .header-center {
+    position: static;
+    transform: none;
+    width: 100%;
+    text-align: center;
+    pointer-events: auto;
+  }
+
+  .header-center h1 {
+    font-size: 1.3em;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Secciones con menos padding */
+  section {
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .container {
+    padding: 12px;
+  }
+
+  /* Hero más compacto */
+  .hero {
+    padding: 40px 16px;
+  }
+
+  .hero h2 {
+    font-size: 1.4em;
+  }
+
+  .hero p {
+    font-size: 1em;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-buttons .btn {
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Stats en 2 columnas */
+  .stats-grid {
+    gap: 16px;
+    justify-content: space-around;
+  }
+
+  .stat-numero { font-size: 2em; }
+
+  /* Servicios y planes en 1 columna */
+  .servicios-grid,
+  .planes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Horarios con scroll horizontal */
+  .tabla-horarios th,
+  .tabla-horarios td {
+    padding: 8px 6px;
+    font-size: 0.8em;
+  }
+
+  .btn-inscribirse {
+    font-size: 0.75em;
+    padding: 6px;
+  }
+
+  /* Apertura en columna única */
+  .apertura-item {
+    min-width: 100%;
+    flex: none;
+  }
+
+  /* Contacto en columna única */
+  .contacto-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Inscripciones en columna única */
+  .inscripciones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Perfil apilado */
+  .perfil-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .perfil-dato {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .perfil-form {
+    max-width: 100%;
+  }
+
+  /* Dashboard en 2 columnas */
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .dashboard-card {
+    padding: 16px 12px;
+  }
+
+  .dashboard-numero { font-size: 1.8em; }
+  .dashboard-emoji { font-size: 1.5em; }
+
+  /* Rutinas en columna única */
+  .rutinas-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Notificaciones — botón debajo del texto */
+  .notif-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  .btn-notif-leer {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Usuarios en columna única */
+  .usuarios-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Footer en 2 columnas */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 24px 16px 16px;
+  }
+
+  /* Idiomas más compactos */
+  .language-switch {
+    margin-right: 0;
+  }
+
+  .language-btn {
+    padding: 4px 8px;
+    font-size: 1em;
+    min-width: 44px;
+  }
+
+  /* Consultas header apilado */
+  .consulta-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .consulta-fecha {
+    white-space: normal;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  header {
     flex-direction: column;
     padding: 15px;
     gap: 10px;
@@ -1472,62 +1420,28 @@ footer {
     justify-content: space-between;
   }
 
+  .header-center {
+    position: static;
+    transform: none;
+    width: 100%;
+    text-align: center;
+    pointer-events: auto;
+  }
+
   .header-right {
     width: 100%;
     justify-content: center;
     flex-wrap: wrap;
   }
 
-  /* RESPONSIVE TABLA HORARIOS */
-  .tabla-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+  .hero h2 { font-size: 1.5em; }
+  .stats-grid { gap: 20px; }
+  .stat-numero { font-size: 2em; }
+  .language-switch { margin: 10px 0; }
 
-  .tabla-horarios {
-    min-width: 500px;
-  }
-
-  .tabla-horarios th,
-  .tabla-horarios td {
-    padding: 8px 6px;
-    font-size: 0.85em;
-  }
-
-  .btn-inscribirse {
-    font-size: 0.7em;
-    padding: 3px 5px;
-  }
-
-  
-  .hero h2 {
-    font-size: 1.5em;
-  }
-
-  .stats-grid {
-    gap: 20px;
-  }
-
-  .stat-numero {
-    font-size: 2em;
-  }
-
-  .language-switch {
-    margin: 10px 0;
-  }
-
-  .contacto-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .perfil-header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .rutinas-layout {
-    grid-template-columns: 1fr;
-  }
+  .contacto-layout { grid-template-columns: 1fr; }
+  .perfil-header { flex-direction: column; text-align: center; }
+  .rutinas-layout { grid-template-columns: 1fr; }
 
   .footer-grid {
     grid-template-columns: 1fr 1fr;
